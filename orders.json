@@ -1,0 +1,64 @@
+[
+  {
+    "orderId": "KYB-68549",
+    "trackingNumber": "TRACK-KNB-308141",
+    "createdAt": "2026-10-19T21:28:28.142Z",
+    "estimatedDelivery": "Friday, October 23, 2026",
+    "status": "Confirmed & In Artisan Queue",
+    "currentStep": 1,
+    "steps": [
+      {
+        "step": 1,
+        "title": "Order Received",
+        "desc": "Order logged & placed into artisan crafting queue",
+        "completed": true,
+        "time": "Just now"
+      },
+      {
+        "step": 2,
+        "title": "Handcrafting with Love",
+        "desc": "Artisan hand-knitting your yarn with custom details",
+        "completed": false,
+        "time": "Next 24-48 hrs"
+      },
+      {
+        "step": 3,
+        "title": "Quality Check & Eco-Packing",
+        "desc": "Inspected for flawless stitches and wrapped with signature ribbon",
+        "completed": false,
+        "time": "Estimated Day 3"
+      },
+      {
+        "step": 4,
+        "title": "Dispatched for Safe Delivery",
+        "desc": "Handed to courier for express doorstep delivery",
+        "completed": false,
+        "time": "Estimated Day 4-5"
+      }
+    ],
+    "customer": {
+      "fullName": "Jessica Fabiano",
+      "phone": "3319565982",
+      "email": "fabianojessica6@gmail.com",
+      "deliveryAddress": "Via Roma 10, Milano"
+    },
+    "item": {
+      "id": "cloud-clutch",
+      "name": "The Cloud Knitted Clutch",
+      "image": "/images/cloud-clutch.jpeg",
+      "unitPrice": 48,
+      "quantity": 2,
+      "totalPrice": 96,
+      "color": "Milky White",
+      "personalization": "With gold monogram JF",
+      "notes": "None provided"
+    },
+    "confirmationMessage": "Thank you for patronising us! We have got your order and will deliver them to you as soon as possible.",
+    "contactInfo": {
+      "phone": "3319565982",
+      "email": "fabianojessica6@gmail.com",
+      "serviceHours": "Open 24/7, 6 days a week, 365 days a year",
+      "instagram": "@knotyourbag"
+    }
+  }
+]

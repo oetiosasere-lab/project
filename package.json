@@ -1,0 +1,13 @@
+{
+  "name": "knotyourbag",
+  "version": "1.0.0",
+  "description": "Modern, responsive, aesthetic e-commerce website for handmade bags & clothes brand knotyourbag",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["handmade", "crochet", "knot", "bags", "ecommerce"],
+  "author": "knotyourbag",
+  "license": "ISC"
+}

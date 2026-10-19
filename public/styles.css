@@ -1,0 +1,170 @@
+/* knotyourbag Custom Stylesheet */
+:root {
+  --color-milky-white: #FAF8F5;
+  --color-milky-card: #FFFFFF;
+  --color-black: #111111;
+  --color-black-soft: #1E1E1E;
+  --color-sand: #F3ECE2;
+  --color-sand-dark: #E4D7C8;
+  --color-terracotta: #D47A60;
+  --color-sage: #8A9A86;
+  --color-gold: #D4AF37;
+}
+
+body {
+  background-color: var(--color-milky-white);
+  color: var(--color-black);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.font-editorial {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF8F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #D8CBBF;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #111111;
+}
+
+/* Glassmorphism */
+.glass-header {
+  background: rgba(250, 248, 245, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(17, 17, 17, 0.06);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+}
+
+/* Badge Glow & Pulse */
+@keyframes softPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.7;
+  }
+}
+
+.pulse-indicator {
+  animation: softPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Texture Pattern */
+.bg-artisan-grid {
+  background-image: radial-gradient(rgba(17, 17, 17, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Card Hover Elevation */
+.artisan-card {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.artisan-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.12);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #111111;
+  color: #FAF8F5;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:hover {
+  background-color: #2D2D2D;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.3);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #111111;
+  border: 1.5px solid #111111;
+  transition: all 0.25s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #111111;
+  color: #FAF8F5;
+  transform: translateY(-2px);
+}
+
+/* Swatch Selection Ring */
+.color-swatch {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.color-swatch:hover {
+  transform: scale(1.15);
+}
+.color-swatch.active {
+  ring: 2px solid #111111;
+  outline: 2px solid #111111;
+  outline-offset: 2px;
+}
+
+/* Stepper Tracker */
+.step-line-active {
+  background-color: #111111;
+}
+.step-line-inactive {
+  background-color: #E5E7EB;
+}
+
+/* Shimmer & Highlight Effect */
+@keyframes highlightOrder {
+  0% {
+    background-color: rgba(226, 184, 174, 0.3);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+.order-highlight {
+  animation: highlightOrder 2.5s ease-out;
+}
+
+/* Modal Backdrop */
+.modal-backdrop {
+  background: rgba(17, 17, 17, 0.65);
+  backdrop-filter: blur(6px);
+}
+
+/* Print styles for receipt */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-receipt, #printable-receipt * {
+    visibility: visible;
+  }
+  #printable-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}

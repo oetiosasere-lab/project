@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>knotyourbag — Handmade Knot with Love | Artisan Bags & Knitwear</title>
+  <meta name="description" content="Handcrafted knot bags, custom knitwear, and slow-fashion artisanal creations woven stitch-by-stitch with love and premium recycled yarns." />
+  
+  <!-- Favicon Icon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧶</text></svg>" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            milky: {
+              DEFAULT: '#FAF8F5',
+              dark: '#F2EDE4',
+              card: '#FFFFFF'
+            },
+            neutral: {
+              sand: '#F3ECE2',
+              sandDark: '#E4D7C8',
+              terracotta: '#D47A60',
+              sage: '#8A9A86'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            editorial: ['"Playfair Display"', 'Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="bg-[#FAF8F5] text-neutral-900 selection:bg-neutral-900 selection:text-white antialiased">
+
+  <!-- ================= TOP ANNOUNCEMENT BAR ================= -->
+  <div class="bg-neutral-950 text-[#FAF8F5] text-xs font-medium py-2.5 px-4 tracking-wide text-center flex items-center justify-center gap-3 relative z-50">
+    <span class="inline-flex items-center gap-1.5">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-indicator"></span>
+      <span>Handcrafted with Love</span>
+    </span>
+    <span class="hidden md:inline text-neutral-500">•</span>
+    <span class="hidden md:inline">Custom Color & Monogram Requests Welcome</span>
+    <span class="hidden md:inline text-neutral-500">•</span>
+    <a href="#order-section" class="underline underline-offset-4 hover:text-white font-semibold transition">Order Now &rarr;</a>
+  </div>
+
+  <!-- ================= 1. NAVIGATION & HEADER ================= -->
+  <header class="glass-header sticky top-0 z-40 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo / Name -->
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="w-10 h-10 rounded-xl bg-neutral-950 text-[#FAF8F5] flex items-center justify-center font-bold text-xl transition-transform duration-300 group-hover:rotate-6 group-hover:scale-105 shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a5 5 0 0 1 5 5v1a5 5 0 0 1-5 5 5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z"></path>
+            <path d="M17 12a5 5 0 0 1 5 5v1a5 5 0 0 1-5 5 5 5 0 0 1-5-5v-1a5 5 0 0 1 5-5z"></path>
+            <path d="M7 12a5 5 0 0 1 5 5v1a5 5 0 0 1-5 5 5 5 0 0 1-5-5v-1a5 5 0 0 1 5-5z"></path>
+          </svg>
+        </div>
+        <div>
+          <span class="text-2xl font-extrabold tracking-tight text-neutral-950 block leading-none">knotyourbag</span>
+          <span class="text-[10px] tracking-widest uppercase font-semibold text-neutral-500 block mt-0.5">Handcrafted Atelier</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-neutral-700">
+        <a href="#about-section" class="hover:text-neutral-950 transition">About Us</a>
+        <a href="#products-section" class="hover:text-neutral-950 transition">Products Available</a>
+        <a href="#testimonials-section" class="hover:text-neutral-950 transition">Community Reviews</a>
+        <a href="#promises-section" class="hover:text-neutral-950 transition">Our Promises</a>
+        <a href="#contact-info-section" class="hover:text-neutral-950 transition">Contact</a>
+      </nav>
+
+      <!-- Header CTAs & Contact Quick Links -->
+      <div class="hidden sm:flex items-center gap-4">
+        <!-- Quick Order Tracker Modal Trigger -->
+        <button 
+          type="button" 
+          onclick="document.getElementById('tracker-lookup-modal').classList.remove('hidden')" 
+          class="text-xs font-semibold text-neutral-600 hover:text-neutral-950 flex items-center gap-1.5 py-2 px-3 rounded-full hover:bg-neutral-100 transition"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+          </svg>
+          <span>Track Order</span>
+        </button>
+
+        <!-- Instagram Pill -->
+        <a 
+          href="https://www.instagram.com" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="hidden md:flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border border-neutral-300 text-neutral-800 hover:border-neutral-950 hover:bg-white transition shadow-sm"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+          <span>Instagram</span>
+        </a>
+
+        <!-- Header Primary "Order Now" Button -->
+        <a 
+          href="#order-section" 
+          class="btn-primary px-5 py-2.5 rounded-full font-bold text-sm tracking-wide shadow-md flex items-center gap-2"
+        >
+          <span>Order Now</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <button 
+        type="button" 
+        id="mobile-menu-toggle" 
+        class="lg:hidden p-2 text-neutral-900 rounded-lg hover:bg-neutral-100 transition"
+        aria-label="Open Mobile Menu"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-menu-drawer" class="fixed inset-y-0 right-0 w-80 bg-[#FAF8F5] shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out border-l border-neutral-200 flex flex-col justify-between p-6">
+    <div>
+      <div class="flex items-center justify-between pb-6 border-b border-neutral-200">
+        <span class="text-xl font-extrabold text-neutral-950">knotyourbag</span>
+        <button id="mobile-menu-close" class="p-2 text-neutral-600 hover:text-neutral-950 rounded-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <nav class="flex flex-col gap-4 mt-6 text-base font-bold text-neutral-800">
+        <a href="#about-section" class="mobile-nav-link py-2 hover:text-neutral-950">About Us</a>
+        <a href="#products-section" class="mobile-nav-link py-2 hover:text-neutral-950">Products Available</a>
+        <a href="#testimonials-section" class="mobile-nav-link py-2 hover:text-neutral-950">Community Reviews</a>
+        <a href="#promises-section" class="mobile-nav-link py-2 hover:text-neutral-950">Our Promises</a>
+        <a href="#contact-info-section" class="mobile-nav-link py-2 hover:text-neutral-950">Contact & Hours</a>
+        <a href="#order-section" class="mobile-nav-link py-2 text-emerald-800">Place an Order</a>
+      </nav>
+    </div>
+    <div class="space-y-3 pt-6 border-t border-neutral-200 text-xs text-neutral-600">
+      <div class="font-bold text-neutral-900">Direct Support:</div>
+      <div>📞 3319565982</div>
+      <div>✉️ fabianojessica6@gmail.com</div>
+      <a href="#order-section" class="mobile-nav-link btn-primary w-full py-3 rounded-xl font-bold text-center block text-sm mt-2">
+        Order Now
+      </a>
+    </div>
+  </div>
+
+  <!-- ================= 2. HERO SECTION ================= -->
+  <section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden bg-artisan-grid">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <!-- Hero Text Content (Left 7 Cols) -->
+        <div class="lg:col-span-7 space-y-8">
+          
+          <!-- Artisan Capsule Badge -->
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-neutral-200 shadow-sm">
+            <span class="flex h-2 w-2 relative">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+            </span>
+            <span class="text-xs font-bold uppercase tracking-wider text-neutral-800">Slow Fashion Artisan Collective</span>
+          </div>
+
+          <!-- Main Heading -->
+          <div class="space-y-4">
+            <h1 class="font-editorial text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-neutral-950 leading-[1.08]">
+              Handmade Knot with Love
+            </h1>
+          </div>
+
+          <!-- Hero Action Buttons -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+            <!-- Primary Button: Order Now (Leads directly to Contact/Order Form) -->
+            <a 
+              href="#order-section" 
+              class="btn-primary text-center px-8 py-4 rounded-2xl font-extrabold text-base tracking-wide flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-0.5"
+            >
+              <span>Order Now</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+
+            <!-- Secondary Button: View Products (Smooth scrolls to Products Available) -->
+            <a 
+              href="#products-section" 
+              class="btn-secondary text-center px-8 py-4 rounded-2xl font-bold text-base flex items-center justify-center gap-2 hover:bg-neutral-950 hover:text-[#FAF8F5] transition duration-200"
+            >
+              <span>View Products</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Key Trust Markers -->
+          <div class="pt-6 border-t border-neutral-200/80 grid grid-cols-3 gap-4 max-w-lg">
+            <div>
+              <div class="font-extrabold text-xl text-neutral-950">100%</div>
+              <div class="text-xs text-neutral-600 font-medium mt-0.5">Handcrafted Knot</div>
+            </div>
+            <div>
+              <div class="font-extrabold text-xl text-neutral-950">24/7</div>
+              <div class="text-xs text-neutral-600 font-medium mt-0.5">Service At All Times</div>
+            </div>
+            <div>
+              <div class="font-extrabold text-xl text-neutral-950">4.9 / 5★</div>
+              <div class="text-xs text-neutral-600 font-medium mt-0.5">Community Rated</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual Showcase Collage (Right 5 Cols) -->
+        <div class="lg:col-span-5 relative">
+          <!-- Main Hero Showcase Card -->
+          <div class="relative mx-auto max-w-md lg:max-w-none">
+            
+            <!-- Glow backdrop decoration -->
+            <div class="absolute -inset-4 bg-gradient-to-r from-neutral-200 via-amber-100/40 to-neutral-200 rounded-3xl filter blur-xl opacity-70"></div>
+            
+            <div class="relative bg-white p-3 rounded-3xl border border-neutral-200 shadow-2xl">
+              <div class="aspect-[4/5] rounded-2xl overflow-hidden relative group">
+                <img 
+                  src="/images/cloud-clutch.jpeg" 
+                  alt="The Cloud Knitted Clutch - knotyourbag" 
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+                <!-- Floating Product Pill on Image -->
+                <div class="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl p-4 border border-white/40 shadow-lg flex items-center justify-between">
+                  <div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Signature Creation</span>
+                    <h3 class="font-bold text-neutral-950 text-base leading-tight">The Cloud Knitted Clutch</h3>
+                    <div class="text-xs text-neutral-600 font-medium mt-0.5">Milky White Chunky Cotton</div>
+                  </div>
+                  <button 
+                    type="button" 
+                    onclick="orderThisProduct('cloud-clutch')" 
+                    class="p-3 bg-neutral-950 text-white rounded-xl hover:bg-neutral-800 transition"
+                    title="Quick Order"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Satellite Badge 1 (Top Left) -->
+            <div class="absolute -top-4 -left-6 bg-white border border-neutral-200 rounded-2xl p-3 shadow-xl hidden sm:flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl overflow-hidden border border-neutral-100 flex-shrink-0">
+                <img src="/images/baby-cardigan-set.jpeg" alt="Knitted Cardigan Set" class="w-full h-full object-cover" />
+              </div>
+              <div class="text-xs">
+                <div class="font-bold text-neutral-900">Baby Cardigans & Sets</div>
+                <div class="text-neutral-500 text-[11px]">Organic Knitted Wear</div>
+              </div>
+            </div>
+
+            <!-- Floating Satellite Badge 2 (Bottom Right) -->
+            <div class="absolute -bottom-5 -right-6 bg-white border border-neutral-200 rounded-2xl p-3 shadow-xl hidden sm:flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl overflow-hidden border border-neutral-100 flex-shrink-0">
+                <img src="/images/pearl-dew-barrel.jpeg" alt="Pearl Dew Barrel Bag" class="w-full h-full object-cover" />
+              </div>
+              <div class="text-xs">
+                <div class="font-bold text-neutral-900">Pearl Dew Barrel</div>
+                <div class="text-emerald-700 font-semibold text-[11px]">⭐ In Stock / Ready</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 3. ABOUT US & TESTIMONIALS ================= -->
+  <section id="about-section" class="py-24 bg-white border-y border-neutral-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-bold tracking-widest uppercase text-neutral-500 mb-2 block">Our Heritage & Community</span>
+        <h2 class="font-editorial text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-950 mb-4">
+          Knotted with Patience, Woven with Passion
+        </h2>
+        <p class="text-base sm:text-lg text-neutral-600 leading-relaxed">
+          At <strong>knotyourbag</strong>, we reject mass-produced plastic uniformity. Every stitch is looped by loving artisan hands to give each bag, top, and accessory a vibrant personality you will cherish for years.
+        </p>
+      </div>
+
+      <!-- Core Artisan Pillars (Icons removed, 3 pillars) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+        
+        <!-- Pillar 1 -->
+        <div class="bg-[#FAF8F5] p-7 rounded-2xl border border-neutral-200/70 hover:border-neutral-950 transition duration-300">
+          <h3 class="font-bold text-lg text-neutral-950 mb-2">100% Artisan Made</h3>
+          <p class="text-sm text-neutral-600 leading-relaxed">
+            No robotic assembly lines. Every knot is manually twisted, pulled, and locked for lasting durability and natural structure.
+          </p>
+        </div>
+
+        <!-- Pillar 2 (Custom To Your Taste) -->
+        <div class="bg-[#FAF8F5] p-7 rounded-2xl border border-neutral-200/70 hover:border-neutral-950 transition duration-300">
+          <h3 class="font-bold text-lg text-neutral-950 mb-2">Custom To Your Taste</h3>
+          <p class="text-sm text-neutral-600 leading-relaxed">
+            Have a special shade or strap length in mind? Choose any custom color, personalized monogram, or bead accents at zero extra cost.
+          </p>
+        </div>
+
+        <!-- Pillar 3 (Community & Fair Price) -->
+        <div class="bg-[#FAF8F5] p-7 rounded-2xl border border-neutral-200/70 hover:border-neutral-950 transition duration-300">
+          <h3 class="font-bold text-lg text-neutral-950 mb-2">Community & Fair Service</h3>
+          <p class="text-sm text-neutral-600 leading-relaxed">
+            Direct from the maker to you. Honest communication with zero retailer markups, so high-end artisan craft remains accessible.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Testimonials Section -->
+      <div id="testimonials-section" class="pt-8">
+        <div class="text-center max-w-2xl mx-auto mb-14">
+          <span class="text-xs font-bold tracking-widest uppercase text-neutral-500 mb-2 block">Customer Voices</span>
+          <h3 class="font-editorial text-3xl sm:text-4xl font-bold text-neutral-950 mb-3">
+            Honest Community Reviews
+          </h3>
+          <p class="text-sm sm:text-base text-neutral-600">
+            Real, uncensored experiences shared by knotyourbag shoppers worldwide.
+          </p>
+        </div>
+
+        <!-- Testimonials Grid (Includes balanced positive and negative comments) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <!-- Review 1: Positive (5 Stars) -->
+          <div class="bg-[#FAF8F5] p-6 rounded-2xl border border-neutral-200 flex flex-col justify-between">
+            <div>
+              <div class="flex text-amber-500 text-sm mb-3">★★★★★</div>
+              <p class="text-sm text-neutral-700 leading-relaxed italic mb-6">
+                &ldquo;The Cloud Knitted Clutch in milky white is pure poetry in person! The weave feels so plush yet holds its structure gracefully. It gets compliments every single time I carry it.&rdquo;
+              </p>
+            </div>
+            <div class="flex items-center gap-3 pt-4 border-t border-neutral-200/70">
+              <div class="w-9 h-9 rounded-full bg-neutral-200 flex items-center justify-center font-bold text-neutral-700 text-xs">EV</div>
+              <div>
+                <div class="font-bold text-xs text-neutral-950">Elena Valenti</div>
+                <div class="text-[11px] text-neutral-500">Verified Buyer • Milan, Italy</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review 2: Negative / Critical (2 Stars) -->
+          <div class="bg-[#FAF8F5] p-6 rounded-2xl border border-neutral-200 flex flex-col justify-between">
+            <div>
+              <div class="flex text-amber-500 text-sm mb-3">★★<span class="text-neutral-300">☆☆☆</span></div>
+              <p class="text-sm text-neutral-700 leading-relaxed italic mb-6">
+                &ldquo;The bag is undeniably beautiful, but shipping took almost 12 days to arrive in Berlin because each item is made by hand one at a time. If you need something urgently for a weekend event, make sure you order well in advance.&rdquo;
+              </p>
+            </div>
+            <div class="flex items-center gap-3 pt-4 border-t border-neutral-200/70">
+              <div class="w-9 h-9 rounded-full bg-neutral-200 flex items-center justify-center font-bold text-neutral-700 text-xs">HS</div>
+              <div>
+                <div class="font-bold text-xs text-neutral-950">Hannah Schmidt</div>
+                <div class="text-[11px] text-neutral-500">Verified Buyer • Berlin, Germany</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review 3: Positive (5 Stars) -->
+          <div class="bg-[#FAF8F5] p-6 rounded-2xl border border-neutral-200 flex flex-col justify-between">
+            <div>
+              <div class="flex text-amber-500 text-sm mb-3">★★★★★</div>
+              <p class="text-sm text-neutral-700 leading-relaxed italic mb-6">
+                &ldquo;I ordered the Heirloom Baby Cardigan & Booties set for my sister’s baby shower. Everyone gasped when she opened it! The natural wooden buttons and soft yarn are breathtaking.&rdquo;
+              </p>
+            </div>
+            <div class="flex items-center gap-3 pt-4 border-t border-neutral-200/70">
+              <div class="w-9 h-9 rounded-full bg-neutral-200 flex items-center justify-center font-bold text-neutral-700 text-xs">SM</div>
+              <div>
+                <div class="font-bold text-xs text-neutral-950">Sophie Mercier</div>
+                <div class="text-[11px] text-neutral-500">Verified Buyer • Paris, France</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review 4: Negative / Critical (3 Stars) -->
+          <div class="bg-[#FAF8F5] p-6 rounded-2xl border border-neutral-200 flex flex-col justify-between">
+            <div>
+              <div class="flex text-amber-500 text-sm mb-3">★★★<span class="text-neutral-300">☆☆</span></div>
+              <p class="text-sm text-neutral-700 leading-relaxed italic mb-6">
+                &ldquo;Love the look and aesthetic, but because it’s thick chunky cotton cord, the tote is noticeably heavier than ordinary canvas bags. Also, if you carry a heavy metal thermos or laptop, the knit handles stretch down a bit.&rdquo;
+              </p>
+            </div>
+            <div class="flex items-center gap-3 pt-4 border-t border-neutral-200/70">
+              <div class="w-9 h-9 rounded-full bg-neutral-200 flex items-center justify-center font-bold text-neutral-700 text-xs">MB</div>
+              <div>
+                <div class="font-bold text-xs text-neutral-950">Marco Bellini</div>
+                <div class="text-[11px] text-neutral-500">Verified Buyer • Rome, Italy</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review 5: Negative / Critical (2 Stars) -->
+          <div class="bg-[#FAF8F5] p-6 rounded-2xl border border-neutral-200 flex flex-col justify-between">
+            <div>
+              <div class="flex text-amber-500 text-sm mb-3">★★<span class="text-neutral-300">☆☆☆</span></div>
+              <p class="text-sm text-neutral-700 leading-relaxed italic mb-6">
+                &ldquo;I loved the Burano Indigo design and requested an extra-large version with an interior zip pocket. They politely told me they currently only make the standard open pocket silhouette. Craft is great, but need more size variations!&rdquo;
+              </p>
+            </div>
+            <div class="flex items-center gap-3 pt-4 border-t border-neutral-200/70">
+              <div class="w-9 h-9 rounded-full bg-neutral-200 flex items-center justify-center font-bold text-neutral-700 text-xs">RD</div>
+              <div>
+                <div class="font-bold text-xs text-neutral-950">Rachel Davis</div>
+                <div class="text-[11px] text-neutral-500">Verified Buyer • Chicago, IL</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review 6: Positive (5 Stars) -->
+          <div class="bg-[#FAF8F5] p-6 rounded-2xl border border-neutral-200 flex flex-col justify-between">
+            <div>
+              <div class="flex text-amber-500 text-sm mb-3">★★★★★</div>
+              <p class="text-sm text-neutral-700 leading-relaxed italic mb-6">
+                &ldquo;The Pearl Dew Barrel Bag is exceptional craftsmanship. The pearls are sewn on firmly and the cylindrical shape is pure sculpture. Customer service answered my question immediately.&rdquo;
+              </p>
+            </div>
+            <div class="flex items-center gap-3 pt-4 border-t border-neutral-200/70">
+              <div class="w-9 h-9 rounded-full bg-neutral-200 flex items-center justify-center font-bold text-neutral-700 text-xs">CH</div>
+              <div>
+                <div class="font-bold text-xs text-neutral-950">Clara Hansen</div>
+                <div class="text-[11px] text-neutral-500">Verified Buyer • Sydney, Australia</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 4. PRODUCTS AVAILABLE SECTION ================= -->
+  <section id="products-section" class="py-24 bg-[#FAF8F5]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <span class="text-xs font-bold tracking-widest uppercase text-neutral-500 mb-2 block">Artisan Collection</span>
+          <h2 class="font-editorial text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-950">
+            Products Available
+          </h2>
+          <p class="text-sm sm:text-base text-neutral-600 mt-2 max-w-xl">
+            Choose your favorite handmade piece, customize the yarn color, select quantity, and add personalized requests.
+          </p>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="flex flex-wrap items-center gap-2">
+          <button 
+            type="button" 
+            data-category="all" 
+            class="cat-filter-btn px-4 py-2 rounded-full text-xs font-bold bg-neutral-950 text-[#FAF8F5] transition"
+          >
+            All Creations
+          </button>
+          <button 
+            type="button" 
+            data-category="bags" 
+            class="cat-filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-neutral-700 border border-neutral-200 hover:border-neutral-950 transition"
+          >
+            Signature Knot Bags
+          </button>
+          <button 
+            type="button" 
+            data-category="clothes" 
+            class="cat-filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-neutral-700 border border-neutral-200 hover:border-neutral-950 transition"
+          >
+            Knitwear & Clothes
+          </button>
+          <button 
+            type="button" 
+            data-category="gifts" 
+            class="cat-filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-neutral-700 border border-neutral-200 hover:border-neutral-950 transition"
+          >
+            Gifts & Accents
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Dynamic Product Grid (Populated by app.js) -->
+      <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Javascript renders cards here with real-time stock, color swatches, quantity selectors, and personalization inputs -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 5. CONTACT & ORDER FORM SECTION ================= -->
+  <section id="order-section" class="py-24 bg-white border-t border-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-bold tracking-widest uppercase text-neutral-500 mb-2 block">Direct Artisan Checkout</span>
+        <h2 class="font-editorial text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-950 mb-3">
+          Contact & Order Form
+        </h2>
+        <p class="text-base text-neutral-600">
+          Ready to bring home a handmade treasure? Fill out the details below. Our artisan team starts preparing your parcel immediately.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        <!-- Left Column: Promises & Contact Information (5 Cols) -->
+        <div class="lg:col-span-5 space-y-8">
+          
+          <!-- PROMISES SECTION -->
+          <div id="promises-section" class="bg-[#FAF8F5] p-7 rounded-3xl border border-neutral-200 shadow-sm">
+            <div class="flex items-center gap-2.5 mb-6">
+              <span class="w-7 h-7 rounded-full bg-neutral-950 text-white flex items-center justify-center text-sm font-bold">✓</span>
+              <h3 class="font-bold text-lg text-neutral-950">Our Promises to You</h3>
+            </div>
+
+            <div class="space-y-5">
+              
+              <!-- Promise 1 -->
+              <div class="flex items-start gap-3.5">
+                <div class="w-6 h-6 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-black flex-shrink-0 mt-0.5">
+                  1
+                </div>
+                <div>
+                  <h4 class="font-bold text-sm text-neutral-950">You get what you order at a good price</h4>
+                  <p class="text-xs text-neutral-600 mt-1 leading-relaxed">
+                    Exact craftsmanship, exact colors, and premium yarns. No surprise fees, no bait-and-switch. Authentic value direct from the maker.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Promise 2 -->
+              <div class="flex items-start gap-3.5">
+                <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-black flex-shrink-0 mt-0.5">
+                  2
+                </div>
+                <div>
+                  <h4 class="font-bold text-sm text-neutral-950">We are at your service at all times</h4>
+                  <p class="text-xs text-neutral-600 mt-1 leading-relaxed">
+                    Have questions about colorways, custom strap lengths, or delivery updates? Reach us 24/7. A real artisan answers your message.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Promise 3 -->
+              <div class="flex items-start gap-3.5">
+                <div class="w-6 h-6 rounded-full bg-rose-100 text-rose-800 flex items-center justify-center text-xs font-black flex-shrink-0 mt-0.5">
+                  3
+                </div>
+                <div>
+                  <h4 class="font-bold text-sm text-neutral-950">Discounts available sometimes</h4>
+                  <p class="text-xs text-neutral-600 mt-1 leading-relaxed">
+                    We reward our loyal community with seasonal artisan discounts, bundle savings on matching sets, and surprise loyalty gifts!
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- CONTACT INFORMATION SECTION -->
+          <div id="contact-info-section" class="bg-neutral-950 text-[#FAF8F5] p-7 rounded-3xl shadow-xl">
+            <h3 class="font-bold text-lg text-white mb-1">Direct Contact & Support</h3>
+            <p class="text-xs text-neutral-400 mb-6">Always accessible for our cherished customers.</p>
+
+            <div class="space-y-4 text-sm">
+              
+              <!-- Phone -->
+              <div class="flex items-center justify-between p-3 rounded-xl bg-neutral-900 border border-neutral-800">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-neutral-800 text-white flex items-center justify-center text-sm">📞</div>
+                  <div>
+                    <div class="text-[11px] text-neutral-400 uppercase tracking-wider font-semibold">Phone Number</div>
+                    <a href="tel:3319565982" class="font-bold text-white hover:underline text-base tracking-wide">3319565982</a>
+                  </div>
+                </div>
+                <a href="tel:3319565982" class="text-xs font-bold text-amber-400 hover:text-amber-300">Call Now</a>
+              </div>
+
+              <!-- Email -->
+              <div class="flex items-center justify-between p-3 rounded-xl bg-neutral-900 border border-neutral-800">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-neutral-800 text-white flex items-center justify-center text-sm">✉️</div>
+                  <div>
+                    <div class="text-[11px] text-neutral-400 uppercase tracking-wider font-semibold">Email Address</div>
+                    <a href="mailto:fabianojessica6@gmail.com" class="font-bold text-white hover:underline text-xs break-all">fabianojessica6@gmail.com</a>
+                  </div>
+                </div>
+                <a href="mailto:fabianojessica6@gmail.com" class="text-xs font-bold text-amber-400 hover:text-amber-300">Write</a>
+              </div>
+
+              <!-- Service Hours -->
+              <div class="p-3 rounded-xl bg-neutral-900 border border-neutral-800 flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg bg-neutral-800 text-white flex items-center justify-center text-sm mt-0.5">⏰</div>
+                <div>
+                  <div class="text-[11px] text-neutral-400 uppercase tracking-wider font-semibold">Service Hours</div>
+                  <div class="font-bold text-white text-xs mt-0.5">Open 24/7, 6 days a week, 365 days a year</div>
+                  <div class="text-[10px] text-emerald-400 mt-1 flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    <span>Currently Active & Taking Orders</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Social Links: Instagram Page -->
+              <div class="p-3 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center text-sm">📸</div>
+                  <div>
+                    <div class="text-[11px] text-neutral-400 uppercase tracking-wider font-semibold">Social Links</div>
+                    <div class="font-bold text-white text-xs">Instagram: @knotyourbag</div>
+                  </div>
+                </div>
+                <a 
+                  href="https://www.instagram.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="px-3 py-1 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-bold text-white transition"
+                >
+                  Visit Page
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Interactive Order Form (7 Cols) -->
+        <div class="lg:col-span-7">
+          <div id="order-form-container" class="bg-[#FAF8F5] p-8 sm:p-10 rounded-3xl border border-neutral-200 shadow-md transition-all duration-300">
+            
+            <div class="flex items-center justify-between pb-6 mb-6 border-b border-neutral-200">
+              <div>
+                <h3 class="font-bold text-2xl text-neutral-950">Order Placement Form</h3>
+                <p class="text-xs text-neutral-500 mt-1">Fill in your delivery info to confirm your handcrafted parcel.</p>
+              </div>
+              <span class="text-xs font-semibold px-3 py-1 bg-neutral-200 text-neutral-800 rounded-full">Step 1 of 2</span>
+            </div>
+
+            <!-- Live Selected Product Summary Banner -->
+            <div id="order-live-summary" class="mb-6">
+              <!-- Rendered dynamically by app.js -->
+            </div>
+
+            <!-- The Order Form -->
+            <form id="knotyourbag-order-form" class="space-y-5">
+              
+              <!-- 1. Full Name -->
+              <div>
+                <label for="order-full-name" class="block text-xs font-bold uppercase tracking-wider text-neutral-800 mb-1.5">
+                  Full Name <span class="text-rose-500">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="order-full-name" 
+                  name="fullName" 
+                  required 
+                  placeholder="e.g., Jessica Fabiano" 
+                  class="w-full px-4 py-3 bg-white border border-neutral-300 rounded-xl text-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:border-neutral-950 focus:ring-1 focus:ring-neutral-950 transition"
+                />
+              </div>
+
+              <!-- 2. Phone Number & 3. Email Address (2 cols) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="order-phone" class="block text-xs font-bold uppercase tracking-wider text-neutral-800 mb-1.5">
+                    Phone Number <span class="text-rose-500">*</span>
+                  </label>
+                  <input 
+                    type="tel" 
+                    id="order-phone" 
+                    name="phone" 
+                    required 
+                    placeholder="e.g., 3319565982" 
+                    class="w-full px-4 py-3 bg-white border border-neutral-300 rounded-xl text-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:border-neutral-950 focus:ring-1 focus:ring-neutral-950 transition"
+                  />
+                </div>
+
+                <div>
+                  <label for="order-email" class="block text-xs font-bold uppercase tracking-wider text-neutral-800 mb-1.5">
+                    Email Address <span class="text-rose-500">*</span>
+                  </label>
+                  <input 
+                    type="email" 
+                    id="order-email" 
+                    name="email" 
+                    required 
+                    placeholder="e.g., fabianojessica6@gmail.com" 
+                    class="w-full px-4 py-3 bg-white border border-neutral-300 rounded-xl text-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:border-neutral-950 focus:ring-1 focus:ring-neutral-950 transition"
+                  />
+                </div>
+              </div>
+
+              <!-- 4. Delivery Address -->
+              <div>
+                <label for="order-address" class="block text-xs font-bold uppercase tracking-wider text-neutral-800 mb-1.5">
+                  Delivery Address <span class="text-rose-500">*</span>
+                </label>
+                <textarea 
+                  id="order-address" 
+                  name="deliveryAddress" 
+                  rows="2" 
+                  required 
+                  placeholder="Street name, Apartment/Unit number, City, State/Province, Postal Code" 
+                  class="w-full px-4 py-3 bg-white border border-neutral-300 rounded-xl text-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:border-neutral-950 focus:ring-1 focus:ring-neutral-950 transition"
+                ></textarea>
+              </div>
+
+              <!-- Product Selection & 5. Product Quantity Requested -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                
+                <div class="sm:col-span-2">
+                  <label for="order-product-select" class="block text-xs font-bold uppercase tracking-wider text-neutral-800 mb-1.5">
+                    Chosen Product <span class="text-rose-500">*</span>
+                  </label>
+                  <select 
+                    id="order-product-select" 
+                    class="w-full px-4 py-3 bg-white border border-neutral-300 rounded-xl text-neutral-900 text-sm font-medium focus:outline-none focus:border-neutral-950 focus:ring-1 focus:ring-neutral-950 transition"
+                  >
+                    <!-- Populated dynamically -->
+                  </select>
+                </div>
+
+                <div>
+                  <label for="order-quantity" class="block text-xs font-bold uppercase tracking-wider text-neutral-800 mb-1.5">
+                    Quantity Requested
+                  </label>
+                  <div class="flex items-center bg-white border border-neutral-300 rounded-xl overflow-hidden shadow-sm">
+                    <button 
+                      type="button" 
+                      id="form-qty-dec" 
+                      class="px-3 py-3 text-neutral-700 hover:bg-neutral-100 font-bold transition"
+                    >-</button>
+                    <input 
+                      type="number" 
+                      id="order-quantity" 
+                      name="quantity" 
+                      min="1" 
+                      max="10" 
+                      value="1" 
+                      class="w-full text-center font-bold text-sm text-neutral-900 focus:outline-none"
+                    />
+                    <button 
+                      type="button" 
+                      id="form-qty-inc" 
+                      class="px-3 py-3 text-neutral-700 hover:bg-neutral-100 font-bold transition"
+                    >+</button>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Color & Personalization Requests -->
+              <div>
+                <label for="order-color-detail" class="block text-xs font-bold uppercase tracking-wider text-neutral-800 mb-1.5 flex items-center justify-between">
+                  <span>Color & Personalization Notes</span>
+                  <span class="text-[11px] font-normal text-neutral-500">Free custom details</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="order-color-detail" 
+                  placeholder="e.g., Milky White with custom 40cm shoulder strap, initials 'JF'" 
+                  class="w-full px-4 py-3 bg-white border border-neutral-300 rounded-xl text-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:border-neutral-950 focus:ring-1 focus:ring-neutral-950 transition"
+                />
+              </div>
+
+              <!-- Special Delivery Notes -->
+              <div>
+                <label for="order-notes" class="block text-xs font-bold uppercase tracking-wider text-neutral-800 mb-1.5">
+                  Special Delivery Notes <span class="text-neutral-400 font-normal">(Optional)</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="order-notes" 
+                  placeholder="e.g., Leave with doorman, birthday gift wrapping..." 
+                  class="w-full px-4 py-2.5 bg-white border border-neutral-300 rounded-xl text-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:border-neutral-950 focus:ring-1 focus:ring-neutral-950 transition"
+                />
+              </div>
+
+              <!-- Submit Button -->
+              <div class="pt-3">
+                <button 
+                  type="submit" 
+                  id="order-submit-btn" 
+                  class="btn-primary w-full py-4 rounded-2xl font-extrabold text-base tracking-wide flex items-center justify-center gap-2 shadow-xl hover:shadow-2xl transition"
+                >
+                  <span>Submit Order Now 🧶</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </button>
+
+                <p class="text-[11px] text-center text-neutral-500 mt-3">
+                  🔒 We guarantee honest artisan pricing, prompt delivery dispatch, and 24/7 dedicated assistance.
+                </p>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= INSTAGRAM GALLERY & COMMUNITY ================= -->
+  <section class="py-20 bg-[#FAF8F5] border-t border-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-bold tracking-widest uppercase text-neutral-500 mb-2 block">@knotyourbag on Instagram</span>
+        <h3 class="font-editorial text-3xl font-bold text-neutral-950 mb-2">
+          Styled by Our Community
+        </h3>
+        <p class="text-sm text-neutral-600">
+          Tag <strong class="text-neutral-950">#knotyourbag</strong> on Instagram to be featured in our handcrafted gallery.
+        </p>
+      </div>
+
+      <!-- Instagram Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        
+        <div class="group relative rounded-2xl overflow-hidden aspect-square bg-neutral-200">
+          <img src="/images/cloud-clutch.jpeg" alt="Cloud Clutch Community" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white text-xs font-bold gap-2">
+            <span>❤️ 342</span>
+            <span>💬 28</span>
+          </div>
+        </div>
+
+        <div class="group relative rounded-2xl overflow-hidden aspect-square bg-neutral-200">
+          <img src="/images/indigo-knot.jpeg" alt="Burano Indigo Community" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white text-xs font-bold gap-2">
+            <span>❤️ 489</span>
+            <span>💬 41</span>
+          </div>
+        </div>
+
+        <div class="group relative rounded-2xl overflow-hidden aspect-square bg-neutral-200">
+          <img src="/images/capri-daisy-tote.jpeg" alt="Capri Daisy Community" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white text-xs font-bold gap-2">
+            <span>❤️ 512</span>
+            <span>💬 63</span>
+          </div>
+        </div>
+
+        <div class="group relative rounded-2xl overflow-hidden aspect-square bg-neutral-200">
+          <img src="/images/rose-bouquet.jpeg" alt="Crochet Rose Bouquet Community" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white text-xs font-bold gap-2">
+            <span>❤️ 620</span>
+            <span>💬 77</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FREQUENTLY ASKED QUESTIONS (FAQ) ================= -->
+  <section class="py-20 bg-white border-t border-neutral-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center mb-12">
+        <span class="text-xs font-bold tracking-widest uppercase text-neutral-500 mb-2 block">Help Center</span>
+        <h3 class="font-editorial text-3xl font-bold text-neutral-950">
+          Frequently Asked Questions
+        </h3>
+      </div>
+
+      <div class="space-y-4">
+        
+        <div class="faq-item border border-neutral-200 rounded-2xl p-5 bg-[#FAF8F5]">
+          <div class="faq-header flex justify-between items-center cursor-pointer select-none">
+            <h4 class="font-bold text-sm text-neutral-900">How do I wash and care for my handmade knot bag?</h4>
+            <span class="faq-icon text-neutral-500 transition-transform duration-300">▼</span>
+          </div>
+          <div class="faq-content hidden mt-3 text-xs text-neutral-600 leading-relaxed pt-2 border-t border-neutral-200">
+            We recommend gentle spot cleaning with lukewarm water and mild organic soap. For a full refresh, hand-wash gently and lay flat on a dry towel in indirect sunlight to preserve stitch shape.
+          </div>
+        </div>
+
+        <div class="faq-item border border-neutral-200 rounded-2xl p-5 bg-[#FAF8F5]">
+          <div class="faq-header flex justify-between items-center cursor-pointer select-none">
+            <h4 class="font-bold text-sm text-neutral-900">Can I request a custom color or personalized strap size?</h4>
+            <span class="faq-icon text-neutral-500 transition-transform duration-300">▼</span>
+          </div>
+          <div class="faq-content hidden mt-3 text-xs text-neutral-600 leading-relaxed pt-2 border-t border-neutral-200">
+            Yes, absolutely! Custom colors and personalization are welcomed at knotyourbag with no extra charge. Simply note your preferred shade, monogram, or strap dimensions in the personalization field on the order form.
+          </div>
+        </div>
+
+        <div class="faq-item border border-neutral-200 rounded-2xl p-5 bg-[#FAF8F5]">
+          <div class="faq-header flex justify-between items-center cursor-pointer select-none">
+            <h4 class="font-bold text-sm text-neutral-900">How long will it take for my order to arrive?</h4>
+            <span class="faq-icon text-neutral-500 transition-transform duration-300">▼</span>
+          </div>
+          <div class="faq-content hidden mt-3 text-xs text-neutral-600 leading-relaxed pt-2 border-t border-neutral-200">
+            Ready-to-ship items are packaged and dispatched within 24 hours. Custom hand-knotted requests take 2-3 business days of careful crafting, followed by express doorstep delivery (usually 3-5 business days total).
+          </div>
+        </div>
+
+        <div class="faq-item border border-neutral-200 rounded-2xl p-5 bg-[#FAF8F5]">
+          <div class="faq-header flex justify-between items-center cursor-pointer select-none">
+            <h4 class="font-bold text-sm text-neutral-900">What are the customer service hours?</h4>
+            <span class="faq-icon text-neutral-500 transition-transform duration-300">▼</span>
+          </div>
+          <div class="faq-content hidden mt-3 text-xs text-neutral-600 leading-relaxed pt-2 border-t border-neutral-200">
+            We are proud to be open 24/7, 6 days a week, 365 days a year! You can call us directly at <strong>3319565982</strong> or email <strong>fabianojessica6@gmail.com</strong> whenever you need assistance.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-neutral-950 text-[#FAF8F5] pt-16 pb-12 border-t border-neutral-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-neutral-800">
+        
+        <!-- Brand Info -->
+        <div class="space-y-4 md:col-span-1">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-white text-neutral-950 flex items-center justify-center font-bold text-base">🧶</div>
+            <span class="text-xl font-extrabold tracking-tight text-white">knotyourbag</span>
+          </div>
+          <p class="text-xs text-neutral-400 leading-relaxed">
+            Slow fashion artisanal studio crafting luxury knot bags and cozy knitwear stitch-by-stitch with 100% recycled combed cotton.
+          </p>
+          <div class="text-xs text-amber-400 font-semibold">
+            ✨ Discounts available sometimes for newsletter subscribers!
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-white">Explore</h4>
+          <ul class="space-y-2 text-xs text-neutral-400">
+            <li><a href="#about-section" class="hover:text-white transition">About Our Studio</a></li>
+            <li><a href="#products-section" class="hover:text-white transition">Handcrafted Collection</a></li>
+            <li><a href="#testimonials-section" class="hover:text-white transition">Community Reviews</a></li>
+            <li><a href="#promises-section" class="hover:text-white transition">Our 3 Promises</a></li>
+            <li><a href="#order-section" class="hover:text-white transition">Direct Order Form</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact & Hours -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-white">Contact Info</h4>
+          <ul class="space-y-2 text-xs text-neutral-400">
+            <li>📞 Phone: <a href="tel:3319565982" class="text-white hover:underline">3319565982</a></li>
+            <li>✉️ Email: <a href="mailto:fabianojessica6@gmail.com" class="text-white hover:underline">fabianojessica6@gmail.com</a></li>
+            <li>⏰ Hours: Open 24/7, 6 days/week, 365 days/year</li>
+            <li>📸 Instagram: <a href="https://www.instagram.com" target="_blank" class="text-white hover:underline">@knotyourbag</a></li>
+          </ul>
+        </div>
+
+        <!-- Newsletter & Perks -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-white">Artisan VIP Circle</h4>
+          <p class="text-xs text-neutral-400">
+            Subscribe for private releases, new color previews, and secret flash discounts.
+          </p>
+          <div class="flex items-center gap-2">
+            <input 
+              type="email" 
+              placeholder="Your email address" 
+              class="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded-lg text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-white"
+            />
+            <button 
+              type="button" 
+              onclick="showToast('Thank you for subscribing! Secret discount code sent to your inbox.')" 
+              class="px-4 py-2 bg-white text-neutral-950 rounded-lg font-bold text-xs hover:bg-neutral-200 transition"
+            >
+              Join
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Copyright & Bottom Credit -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-500 gap-4">
+        <div>&copy; 2026 knotyourbag. All rights reserved. Handcrafted with love.</div>
+        <div class="flex items-center gap-4">
+          <span>You get what you order at a good price.</span>
+          <span>•</span>
+          <span>Service at all times.</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ================= 6. DELIVERY DASHBOARD / CONFIRMATION MODAL ================= -->
+  <div id="delivery-dashboard-modal" class="fixed inset-0 z-50 modal-backdrop hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl relative border border-neutral-200 my-8">
+      
+      <!-- Close Button -->
+      <button 
+        type="button" 
+        onclick="closeDeliveryDashboard()" 
+        class="absolute top-5 right-5 p-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition"
+        aria-label="Close modal"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Modal Content: populated dynamically by app.js -->
+      <div id="delivery-dashboard-content">
+        <!-- Default / Fallback Delivery Confirmation View -->
+        <div class="text-center pb-6 border-b border-neutral-200">
+          <div class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-3 shadow-inner">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-neutral-100 text-neutral-800 text-xs font-mono font-bold rounded-full mb-2">
+            <span>Order Reference:</span>
+            <span class="text-neutral-950 font-black">KYB-ORDER-CONFIRMED</span>
+          </div>
+          <div class="p-4 bg-[#FAF8F5] border border-neutral-200/80 rounded-2xl max-w-xl mx-auto shadow-sm">
+            <p class="font-editorial text-lg md:text-xl text-neutral-900 italic font-semibold leading-relaxed">
+              &ldquo;Thank you for patronising us! We have got your order and will deliver them to you as soon as possible.&rdquo;
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= QUICK VIEW MODAL ================= -->
+  <div id="quickview-modal" class="fixed inset-0 z-50 modal-backdrop hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative border border-neutral-200 my-8">
+      <button 
+        type="button" 
+        onclick="closeQuickView()" 
+        class="absolute top-5 right-5 p-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <div id="quickview-content"></div>
+    </div>
+  </div>
+
+  <!-- ================= ORDER TRACKER LOOKUP MODAL ================= -->
+  <div id="tracker-lookup-modal" class="fixed inset-0 z-50 modal-backdrop hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative border border-neutral-200">
+      <button 
+        type="button" 
+        onclick="document.getElementById('tracker-lookup-modal').classList.add('hidden')" 
+        class="absolute top-4 right-4 p-2 text-neutral-400 hover:text-neutral-900"
+      >
+        ✕
+      </button>
+      <h3 class="font-bold text-lg text-neutral-950 mb-1">Track Your Order</h3>
+      <p class="text-xs text-neutral-500 mb-4">Enter your knotyourbag reference number to see real-time crafting & dispatch status.</p>
+      
+      <div class="space-y-3">
+        <input 
+          type="text" 
+          id="input-lookup-order" 
+          placeholder="e.g., KYB-84920" 
+          class="w-full px-4 py-3 bg-[#FAF8F5] border border-neutral-300 rounded-xl font-mono text-sm text-neutral-900 focus:outline-none focus:border-neutral-950"
+        />
+        <button 
+          type="button" 
+          id="btn-lookup-order" 
+          class="btn-primary w-full py-3 rounded-xl font-bold text-xs"
+        >
+          Look Up Delivery Status
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GLOBAL TOAST ALERT ================= -->
+  <div id="global-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 bg-neutral-950 text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-neutral-800 text-xs font-semibold">
+    <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-indicator"></span>
+    <span id="toast-message">Notification message</span>
+  </div>
+
+  <!-- App Logic -->
+  <script src="/app.js"></script>
+</body>
+</html>
