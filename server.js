@@ -263,6 +263,36 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // API: Update order status
+  if ((req.method === 'PATCH' || req.method === 'PUT') && pathname.startsWith('/api/orders')) {
+    let body = '';
+    req.on('data', chunk => body += chunk.toString());
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body);
+        const { orderId, orderRef, status, isCompleted } = payload;
+        const targetId = orderId || orderRef || pathname.replace('/api/orders/', '').replace('/api/orders', '');
+        
+        const orders = getOrders();
+        const found = orders.find(o => o.orderId === targetId || o.order_reference === targetId);
+        if (found) {
+          found.status = status || (isCompleted ? 'Completed' : found.status);
+          found.is_completed = (status === 'completed' || isCompleted === true);
+          fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf8');
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, order: found }));
+        } else {
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, message: 'Order not found' }));
+        }
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, message: 'Invalid payload' }));
+      }
+    });
+    return;
+  }
+
   // API: Create new order
   if (req.method === 'POST' && pathname === '/api/orders') {
     let body = '';
@@ -358,7 +388,9 @@ const server = http.createServer((req, res) => {
   }
 
   // Static File Serving
-  let filePath = path.join(PUBLIC_DIR, pathname === '/' ? 'index.html' : pathname);
+  let requestedPath = pathname === '/' ? '/index.html' : pathname;
+  if (requestedPath === '/admin') requestedPath = '/admin.html';
+  let filePath = path.join(PUBLIC_DIR, requestedPath);
 
   // Security check: ensure path is within PUBLIC_DIR
   if (!filePath.startsWith(PUBLIC_DIR)) {

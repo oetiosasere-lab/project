@@ -590,6 +590,9 @@ function initOrderForm() {
       const result = await response.json();
 
       if (response.ok && result.success) {
+        // Sync to localStorage and Supabase for Admin Dashboard
+        syncOrderToAdminStorage(result.order);
+
         // Success! Launch celebration confetti
         triggerConfetti();
 
@@ -608,6 +611,7 @@ function initOrderForm() {
       console.error('Submission error:', err);
       // Fallback local order creation if network error
       const mockOrder = createMockOrderLocally(payload);
+      syncOrderToAdminStorage(mockOrder);
       triggerConfetti();
       openDeliveryDashboard(mockOrder);
     } finally {
@@ -1013,5 +1017,48 @@ function triggerConfetti() {
         origin: { x: 1 }
       });
     }, 250);
+  }
+}
+
+// Sync placed order to localStorage & Supabase for Admin Dashboard
+function syncOrderToAdminStorage(order) {
+  try {
+    const raw = localStorage.getItem('kyb_orders') || '[]';
+    const list = JSON.parse(raw);
+    
+    // Normalize format
+    const record = {
+      order_reference: order.orderId || order.order_reference,
+      tracking_number: order.trackingNumber || order.tracking_number,
+      customer_name: (order.customer && order.customer.fullName) || order.customer_name,
+      customer_phone: (order.customer && order.customer.phone) || order.customer_phone,
+      customer_email: (order.customer && order.customer.email) || order.customer_email,
+      delivery_address: (order.customer && order.customer.deliveryAddress) || order.delivery_address,
+      product_id: (order.item && order.item.id) || order.product_id,
+      product_name: (order.item && order.item.name) || order.product_name,
+      quantity: (order.item && order.item.quantity) || order.quantity || 1,
+      color: (order.item && order.item.color) || order.color || 'Milky White',
+      personalization: (order.item && order.item.personalization) || order.personalization || '',
+      delivery_notes: (order.item && order.item.notes) || order.delivery_notes || '',
+      status: 'pending',
+      is_completed: false,
+      created_at: order.createdAt || new Date().toISOString()
+    };
+
+    list.unshift(record);
+    localStorage.setItem('kyb_orders', JSON.stringify(list));
+
+    // Also attempt direct insert into Supabase if configured in localStorage
+    const sbUrl = localStorage.getItem('supabase_url');
+    const sbKey = localStorage.getItem('supabase_key');
+    if (sbUrl && sbKey && window.supabase) {
+      const sb = window.supabase.createClient(sbUrl, sbKey);
+      sb.from('orders').insert([record]).then(res => {
+        if (res.error) console.warn('Supabase sync notice:', res.error);
+        else console.log('Successfully synced order to Supabase!');
+      }).catch(err => console.warn('Supabase sync skipped:', err));
+    }
+  } catch (e) {
+    console.error('Storage sync error:', e);
   }
 }

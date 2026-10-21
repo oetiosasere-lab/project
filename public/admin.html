@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>knotyourbag — Seller Admin Dashboard</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧶</text></svg>" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            editorial: ['"Playfair Display"', 'Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Supabase JS Client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="bg-[#FAF8F5] text-neutral-900 min-h-screen flex flex-col font-sans antialiased">
+
+  <!-- ================= ADMIN HEADER ================= -->
+  <header class="glass-header sticky top-0 z-40 border-b border-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand & Admin Title -->
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2 group">
+          <div class="w-10 h-10 rounded-xl bg-neutral-950 text-[#FAF8F5] flex items-center justify-center font-bold text-xl shadow-sm">
+            🧶
+          </div>
+          <div>
+            <div class="text-xl font-extrabold tracking-tight text-neutral-950">knotyourbag</div>
+            <div class="text-[10px] tracking-wider uppercase font-bold text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded inline-block">Seller Dashboard</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Header Status & Navigation -->
+      <div class="flex items-center gap-3">
+        
+        <!-- Supabase Connection Pill -->
+        <button 
+          type="button" 
+          id="btn-supabase-config" 
+          onclick="openSupabaseModal()" 
+          class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full border border-neutral-300 bg-white hover:border-neutral-950 transition shadow-sm"
+        >
+          <span id="supabase-status-dot" class="w-2 h-2 rounded-full bg-amber-400"></span>
+          <span id="supabase-status-text">Supabase: Demo Mode</span>
+          <span class="text-[10px] text-neutral-400">⚙️</span>
+        </button>
+
+        <!-- Live Refresh Button -->
+        <button 
+          type="button" 
+          onclick="loadOrders()" 
+          class="p-2 text-neutral-600 hover:text-neutral-950 rounded-xl hover:bg-neutral-100 transition" 
+          title="Refresh Orders"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </button>
+
+        <!-- Back to Storefront Link -->
+        <a 
+          href="/" 
+          class="text-xs font-bold text-neutral-800 hover:text-neutral-950 px-4 py-2 rounded-full border border-neutral-300 hover:bg-neutral-100 transition flex items-center gap-1.5"
+        >
+          <span>Storefront</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= MAIN DASHBOARD BODY ================= -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    
+    <!-- Top Welcome Banner -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-neutral-950">Artisan Order Management</h1>
+        <p class="text-xs sm:text-sm text-neutral-600 mt-1">
+          Review who placed orders from your landing page, track stitch progress, and mark orders as completed.
+        </p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button 
+          type="button" 
+          onclick="openNewOrderModal()" 
+          class="px-4 py-2.5 bg-neutral-950 hover:bg-neutral-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm"
+        >
+          <span>+ Add Manual Order</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Metric Stats Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+      
+      <!-- Metric 1: Total Orders -->
+      <div class="bg-white p-5 rounded-2xl border border-neutral-200/80 shadow-sm flex items-center justify-between">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-neutral-500">Total Orders</span>
+          <div class="text-2xl sm:text-3xl font-extrabold text-neutral-950 mt-1" id="stat-total-orders">0</div>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-neutral-100 text-neutral-800 flex items-center justify-center font-bold text-lg">
+          📦
+        </div>
+      </div>
+
+      <!-- Metric 2: Not Completed (Active Queue) -->
+      <div class="bg-white p-5 rounded-2xl border border-amber-200 shadow-sm flex items-center justify-between">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-700">Not Completed</span>
+          <div class="text-2xl sm:text-3xl font-extrabold text-amber-900 mt-1" id="stat-pending-orders">0</div>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-800 flex items-center justify-center font-bold text-lg">
+          ⏳
+        </div>
+      </div>
+
+      <!-- Metric 3: Completed Orders -->
+      <div class="bg-white p-5 rounded-2xl border border-emerald-200 shadow-sm flex items-center justify-between">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Completed Orders</span>
+          <div class="text-2xl sm:text-3xl font-extrabold text-emerald-900 mt-1" id="stat-completed-orders">0</div>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center font-bold text-lg">
+          ✅
+        </div>
+      </div>
+
+      <!-- Metric 4: Total Items Crafted -->
+      <div class="bg-white p-5 rounded-2xl border border-neutral-200/80 shadow-sm flex items-center justify-between">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-neutral-500">Items Requested</span>
+          <div class="text-2xl sm:text-3xl font-extrabold text-neutral-950 mt-1" id="stat-total-items">0</div>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-neutral-100 text-neutral-800 flex items-center justify-center font-bold text-lg">
+          🧶
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Search & Filter Bar -->
+    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-neutral-200/80 shadow-sm mb-6 space-y-4">
+      
+      <!-- Filter Tabs -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-neutral-100">
+        <div class="flex flex-wrap items-center gap-2">
+          <button 
+            type="button" 
+            onclick="setTabFilter('all')" 
+            id="tab-all" 
+            class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-neutral-950 text-white transition flex items-center gap-1.5"
+          >
+            <span>All Orders</span>
+            <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-white/20" id="badge-count-all">0</span>
+          </button>
+          
+          <button 
+            type="button" 
+            onclick="setTabFilter('not_completed')" 
+            id="tab-not_completed" 
+            class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition flex items-center gap-1.5"
+          >
+            <span>🟡 Not Completed</span>
+            <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-900 font-bold" id="badge-count-not-completed">0</span>
+          </button>
+
+          <button 
+            type="button" 
+            onclick="setTabFilter('completed')" 
+            id="tab-completed" 
+            class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition flex items-center gap-1.5"
+          >
+            <span>🟢 Completed</span>
+            <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-900 font-bold" id="badge-count-completed">0</span>
+          </button>
+        </div>
+
+        <!-- Supabase Live Sync Pill -->
+        <div class="text-[11px] text-neutral-500 font-medium flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-indicator"></span>
+          <span>Live Sync Active</span>
+        </div>
+      </div>
+
+      <!-- Search Input -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+        <div class="relative flex-1">
+          <input 
+            type="text" 
+            id="admin-search-input" 
+            oninput="handleSearch(this.value)" 
+            placeholder="Search by Customer Name, Phone, Email, Delivery Address, or Order ID..." 
+            class="w-full pl-10 pr-4 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-neutral-950 transition"
+          />
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-neutral-400 absolute left-3.5 top-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+
+        <select 
+          id="admin-product-filter" 
+          onchange="handleProductFilter(this.value)" 
+          class="px-3 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-700 focus:outline-none focus:border-neutral-950 transition"
+        >
+          <option value="all">All Products</option>
+          <option value="cloud-clutch">The Cloud Knitted Clutch</option>
+          <option value="pearl-dew-barrel">The Pearl Dew Barrel Bag</option>
+          <option value="indigo-knot">The Burano Deep Indigo Knot</option>
+          <option value="capri-daisy-tote">The Capri Daisy Market Tote</option>
+          <option value="baby-cardigan-set">Heirloom Baby Cardigan & Booties</option>
+          <option value="coastline-tote">The Coastline Bicolor Tote</option>
+          <option value="heartstring-basket">The Heartstring Periwinkle Basket</option>
+          <option value="espresso-slouch-tote">The Espresso Pearl Slouch Tote</option>
+          <option value="rose-bouquet">The Eternal Knotted Rose Bouquet</option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- Orders Table Container -->
+    <div class="bg-white rounded-2xl border border-neutral-200/80 shadow-sm overflow-hidden">
+      
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs text-neutral-700">
+          <thead class="bg-[#FAF8F5] border-b border-neutral-200 text-neutral-900 font-bold uppercase tracking-wider text-[11px]">
+            <tr>
+              <th scope="col" class="py-3.5 px-4">Order ID & Date</th>
+              <th scope="col" class="py-3.5 px-4">Customer Info</th>
+              <th scope="col" class="py-3.5 px-4">Item & Customization</th>
+              <th scope="col" class="py-3.5 px-4">Delivery Address</th>
+              <th scope="col" class="py-3.5 px-4 text-center">Status</th>
+              <th scope="col" class="py-3.5 px-4 text-right">Fulfillment Actions</th>
+            </tr>
+          </thead>
+          <tbody id="orders-table-body" class="divide-y divide-neutral-200">
+            <!-- Dynamic rows rendered by admin.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty State -->
+      <div id="orders-empty-state" class="hidden text-center py-16 px-4">
+        <div class="w-12 h-12 bg-neutral-100 text-neutral-400 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+          🔍
+        </div>
+        <h4 class="font-bold text-sm text-neutral-900">No Orders Found</h4>
+        <p class="text-xs text-neutral-500 mt-1 max-w-sm mx-auto">
+          No orders match your search or filter. Once shoppers submit orders from the landing page, they will show up here immediately.
+        </p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= SUPABASE CONFIGURATION MODAL ================= -->
+  <div id="supabase-modal" class="fixed inset-0 z-50 modal-backdrop hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border border-neutral-200">
+      <button 
+        type="button" 
+        onclick="closeSupabaseModal()" 
+        class="absolute top-5 right-5 p-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition"
+      >
+        ✕
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-lg">
+          ⚡
+        </div>
+        <div>
+          <h3 class="font-bold text-lg text-neutral-950">Supabase Connection</h3>
+          <p class="text-xs text-neutral-500">Connect your Supabase database in 10 seconds.</p>
+        </div>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-neutral-800 mb-1">Supabase Project URL</label>
+          <input 
+            type="text" 
+            id="cfg-supabase-url" 
+            placeholder="https://xyzcompany.supabase.co" 
+            class="w-full px-3 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl font-mono focus:outline-none focus:border-neutral-950"
+          />
+        </div>
+
+        <div>
+          <label class="block font-bold text-neutral-800 mb-1">Supabase Anon Key (Public Key)</label>
+          <textarea 
+            id="cfg-supabase-key" 
+            rows="3" 
+            placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." 
+            class="w-full px-3 py-2 bg-[#FAF8F5] border border-neutral-300 rounded-xl font-mono focus:outline-none focus:border-neutral-950"
+          ></textarea>
+        </div>
+
+        <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-[11px] text-amber-900 leading-relaxed">
+          💡 <strong>Need the SQL schema?</strong> Your project contains <code class="bg-amber-100 px-1 py-0.5 rounded font-mono font-bold">supabase_schema.sql</code>. Copy & paste it into your Supabase SQL Editor to create the <code class="bg-amber-100 px-1 py-0.5 rounded font-mono font-bold">orders</code> table and Row-Level Security rules.
+        </div>
+
+        <div class="flex items-center justify-between pt-2">
+          <button 
+            type="button" 
+            onclick="clearSupabaseConfig()" 
+            class="text-neutral-500 hover:text-neutral-900 text-xs font-semibold"
+          >
+            Reset to Demo Mode
+          </button>
+          
+          <button 
+            type="button" 
+            onclick="saveSupabaseConfig()" 
+            class="btn-primary px-5 py-2.5 rounded-xl font-bold text-xs"
+          >
+            Save & Connect Supabase
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= ORDER DETAILS MODAL ================= -->
+  <div id="order-detail-modal" class="fixed inset-0 z-50 modal-backdrop hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative border border-neutral-200 max-h-[90vh] overflow-y-auto">
+      <button 
+        type="button" 
+        onclick="closeOrderDetailModal()" 
+        class="absolute top-5 right-5 p-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition"
+      >
+        ✕
+      </button>
+
+      <div id="order-detail-content">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Application Logic -->
+  <script src="/admin.js"></script>
+</body>
+</html>

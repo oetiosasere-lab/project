@@ -3,7 +3,7 @@ const inMemoryOrders = [];
 
 module.exports = (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') {
@@ -100,6 +100,21 @@ module.exports = (req, res) => {
       });
     } catch (err) {
       res.status(400).json({ success: false, message: 'Invalid order data format' });
+    }
+    return;
+  }
+
+  // PATCH/PUT: Update order status
+  if (req.method === 'PATCH' || req.method === 'PUT') {
+    const { orderId, orderRef, status, isCompleted } = req.body || {};
+    const targetId = orderId || orderRef || (req.query && req.query.id);
+    const found = inMemoryOrders.find(o => o.orderId === targetId || o.order_reference === targetId);
+    if (found) {
+      found.status = status || (isCompleted ? 'Completed' : found.status);
+      found.is_completed = (status === 'completed' || isCompleted === true);
+      res.status(200).json({ success: true, order: found });
+    } else {
+      res.status(404).json({ success: false, message: 'Order not found' });
     }
     return;
   }
