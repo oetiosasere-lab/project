@@ -66,18 +66,14 @@
   <header class="glass-header sticky top-0 z-40 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
-      <!-- Brand Logo / Name -->
-      <a href="#" class="flex items-center gap-2.5 group">
-        <div class="w-10 h-10 rounded-xl bg-neutral-950 text-[#FAF8F5] flex items-center justify-center font-bold text-xl transition-transform duration-300 group-hover:rotate-6 group-hover:scale-105 shadow-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2a5 5 0 0 1 5 5v1a5 5 0 0 1-5 5 5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z"></path>
-            <path d="M17 12a5 5 0 0 1 5 5v1a5 5 0 0 1-5 5 5 5 0 0 1-5-5v-1a5 5 0 0 1 5-5z"></path>
-            <path d="M7 12a5 5 0 0 1 5 5v1a5 5 0 0 1-5 5 5 5 0 0 1-5-5v-1a5 5 0 0 1 5-5z"></path>
-          </svg>
+      <!-- Brand Logo / Name (hand-drawn logo) -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="h-11 w-11 rounded-xl bg-neutral-950 text-[#FAF8F5] p-1 flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shadow-sm overflow-hidden">
+          <img src="/images/brand-icon.svg" alt="knotyourbag logo" class="w-full h-full object-contain filter invert contrast-150" />
         </div>
         <div>
           <span class="text-2xl font-extrabold tracking-tight text-neutral-950 block leading-none">knotyourbag</span>
-          <span class="text-[10px] tracking-widest uppercase font-semibold text-neutral-500 block mt-0.5">Handcrafted Atelier</span>
+          <span class="text-[10px] tracking-widest uppercase font-semibold text-neutral-500 block mt-0.5">Borse Fatte a Mano</span>
         </div>
       </a>
 
@@ -326,7 +322,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header -->
-      <div class="text-center max-w-3xl mx-auto mb-16">
+      <div class="text-center max-w-3xl mx-auto mb-14">
         <span class="text-xs font-bold tracking-widest uppercase text-neutral-500 mb-2 block">Our Heritage & Community</span>
         <h2 class="font-editorial text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-950 mb-4">
           Knotted with Patience, Woven with Passion
@@ -334,6 +330,91 @@
         <p class="text-base sm:text-lg text-neutral-600 leading-relaxed">
           At <strong>knotyourbag</strong>, we reject mass-produced plastic uniformity. Every stitch is looped by loving artisan hands to give each bag, top, and accessory a vibrant personality you will cherish for years.
         </p>
+      </div>
+
+      <!-- ================= THE FOUNDER'S NOTE & HAND-DRAWN LOGO ================= -->
+      <div class="bg-[#FAF8F5] rounded-3xl p-6 sm:p-10 border border-neutral-300 shadow-md mb-20 relative overflow-hidden">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          
+          <!-- Left Col: The Hand-Drawn Logo & Notebook Page Photo (5 cols) -->
+          <div class="lg:col-span-5 flex flex-col items-center justify-center text-center space-y-5">
+            
+            <!-- Hand-drawn Logo Recreation Display -->
+            <div class="bg-white p-6 rounded-2xl border border-neutral-200/90 shadow-sm w-full max-w-xs group transition-transform duration-300 hover:scale-[1.02]">
+              <span class="text-[10px] uppercase font-bold tracking-widest text-neutral-400 block mb-3">Official Artisan Emblem</span>
+              <img 
+                src="/images/brand-logo.svg" 
+                alt="Knot Your Bag Original Hand-Drawn Logo" 
+                class="w-full h-auto max-h-36 object-contain mx-auto"
+              />
+              <span class="text-[11px] text-neutral-500 font-medium block mt-2">Gomitolo & Uncinetto • Knot Your Bag</span>
+            </div>
+
+            <!-- Original Notebook Page Snapshot -->
+            <div class="relative bg-white p-2.5 rounded-2xl border border-neutral-200 shadow-sm w-full max-w-xs group cursor-pointer" onclick="window.open('/images/founder-note.jpg', '_blank')">
+              <div class="aspect-[4/3] rounded-xl overflow-hidden relative">
+                <img 
+                  src="/images/founder-note.jpg" 
+                  alt="Original handwritten paper by founder Jessica Fabiano" 
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold">
+                  <span>🔎 View Original Paper</span>
+                </div>
+              </div>
+              <div class="text-[10px] text-neutral-500 text-center mt-1.5 font-medium">
+                📄 Original Handwritten Note by Jessica Fabiano
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Col: The Handwritten Words & Meaning (7 cols) -->
+          <div class="lg:col-span-7 space-y-6">
+            
+            <!-- Capsule Tag -->
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100 border border-amber-200 text-amber-900 text-xs font-bold">
+              <span>✍️ Dalle Parole dell'Artigiana • In the Founder's Words</span>
+            </div>
+
+            <!-- Main Handwritten Italian Quote -->
+            <blockquote class="space-y-4">
+              <p class="font-editorial text-lg sm:text-xl md:text-2xl text-neutral-950 font-semibold italic leading-relaxed">
+                &ldquo;È un marchio che rappresenta un negozio di borse fatte a mano all'uncinetto. L'ho scelto perché secondo me è un bel marchio che riesce a far capire cosa vende l'artigiano ovvero il gomitolo e l'uncinetto.&rdquo;
+              </p>
+              
+              <p class="font-editorial text-base sm:text-lg md:text-xl text-neutral-800 font-semibold italic leading-relaxed pt-1">
+                &ldquo;Inoltre ritengo che l'artigianato sia un ottimo settore poco conosciuto su cui costruire qualcosa.&rdquo;
+              </p>
+            </blockquote>
+
+            <!-- English Translation Card -->
+            <div class="bg-white/90 p-5 rounded-2xl border border-neutral-200 space-y-2 text-xs sm:text-sm text-neutral-700 leading-relaxed">
+              <div class="text-[10px] uppercase font-bold tracking-widest text-neutral-400">English Translation</div>
+              <p>
+                &ldquo;It is a brand representing a boutique of handmade crochet bags. I chose it because in my view it is a beautiful identity that immediately expresses what the artisan creates — namely the ball of yarn and the crochet hook.
+              </p>
+              <p>
+                Furthermore, I believe that craftsmanship is an extraordinary, little-known realm upon which to build something truly lasting.&rdquo;
+              </p>
+            </div>
+
+            <!-- Author Signature -->
+            <div class="pt-2 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-neutral-950 text-white font-bold flex items-center justify-center text-sm">
+                JF
+              </div>
+              <div>
+                <div class="font-bold text-sm text-neutral-950">Jessica Fabiano</div>
+                <div class="text-xs text-neutral-500">Founder & Artisan • knotyourbag</div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
 
       <!-- Core Artisan Pillars (Icons removed, 3 pillars) -->
@@ -984,12 +1065,14 @@
         
         <!-- Brand Info -->
         <div class="space-y-4 md:col-span-1">
-          <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-lg bg-white text-neutral-950 flex items-center justify-center font-bold text-base">🧶</div>
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-lg bg-white p-1 flex items-center justify-center">
+              <img src="/images/brand-icon.svg" alt="knotyourbag" class="w-full h-full object-contain" />
+            </div>
             <span class="text-xl font-extrabold tracking-tight text-white">knotyourbag</span>
           </div>
           <p class="text-xs text-neutral-400 leading-relaxed">
-            Slow fashion artisanal studio crafting luxury knot bags and cozy knitwear stitch-by-stitch with 100% recycled combed cotton.
+            Borse fatte a mano all'uncinetto. Un marchio nato per valorizzare l'artigianato, il gomitolo e l'uncinetto.
           </p>
           <div class="text-xs text-amber-400 font-semibold">
             ✨ Discounts available sometimes for newsletter subscribers!

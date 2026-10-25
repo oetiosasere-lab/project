@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 140" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Left Crochet Hook (Stylized J) -->
+  <g stroke-width="3">
+    <!-- Hook shaft coming down and curving to left like a J with crochet tip -->
+    <path d="M 46 22 L 46 62 Q 46 82 28 82 Q 18 82 18 72 Q 18 64 26 64 L 28 64 Q 24 68 24 72 Q 24 76 30 76 Q 40 76 40 62 L 40 22" fill="currentColor" stroke="none" />
+    <path d="M 40 22 L 46 22" stroke-width="2.5" />
+    <!-- Crochet throat detail -->
+    <path d="M 46 22 L 46 62 Q 46 80 30 80 Q 20 80 20 72 Q 20 66 26 66" stroke-width="2.5" />
+  </g>
+
+  <!-- Center Ball of Yarn (Gomitolo) with Heart on Band -->
+  <g transform="translate(100, 52)">
+    <!-- Main Yarn Ball Outline -->
+    <ellipse cx="0" cy="0" rx="26" ry="34" stroke-width="2.5" fill="#FAF8F5" />
+    
+    <!-- Top & Bottom Yarn Strands Curved Lines -->
+    <!-- Top strands -->
+    <path d="M -18 -18 C -10 -30 10 -30 18 -18" stroke-width="1.8" />
+    <path d="M -22 -10 C -12 -24 12 -24 22 -10" stroke-width="1.8" />
+    <path d="M -12 -6 C -6 -16 6 -16 12 -6" stroke-width="1.6" />
+    <path d="M -6 -32 C 0 -34 6 -34 10 -30" stroke-width="1.6" />
+    <path d="M -20 -22 C -16 -28 -8 -32 0 -32" stroke-width="1.6" />
+
+    <!-- Bottom strands -->
+    <path d="M -18 18 C -10 30 10 30 18 18" stroke-width="1.8" />
+    <path d="M -22 10 C -12 24 12 24 22 10" stroke-width="1.8" />
+    <path d="M -12 6 C -6 16 6 16 12 6" stroke-width="1.6" />
+    <path d="M -6 32 C 0 34 6 34 10 30" stroke-width="1.6" />
+    <path d="M -20 22 C -16 28 -8 32 0 32" stroke-width="1.6" />
+
+    <!-- Center Belly Band (Wrap) -->
+    <rect x="-27" y="-9" width="54" height="18" rx="2" fill="#FAF8F5" stroke="currentColor" stroke-width="2.5" />
+    <line x1="-27" y1="-9" x2="27" y2="-9" stroke-width="2.5" />
+    <line x1="-27" y1="9" x2="27" y2="9" stroke-width="2.5" />
+
+    <!-- Heart in Center of Band -->
+    <path d="M 0 5 C -1 4 -6 0 -6 -3.5 C -6 -6 -3.5 -7.5 -1 -5.5 C 0 -4.5 0 -4.5 0 -4.5 C 0 -4.5 0 -4.5 1 -5.5 C 3.5 -7.5 6 -6 6 -3.5 C 6 0 1 4 0 5 Z" fill="currentColor" stroke="none" />
+  </g>
+
+  <!-- Right Crochet Needle / Vertical Tool -->
+  <g stroke-width="2.5">
+    <!-- Straight shaft with subtle hook at top/bottom -->
+    <path d="M 154 22 L 154 82" />
+    <path d="M 160 22 L 160 82" />
+    <!-- Top hook lip -->
+    <path d="M 154 22 C 154 18 160 18 160 22" />
+    <path d="M 154 82 C 154 85 160 85 160 82" />
+    <!-- Grip groove lines -->
+    <line x1="154" y1="48" x2="160" y2="48" stroke-width="1.5" />
+    <line x1="154" y1="52" x2="160" y2="52" stroke-width="1.5" />
+    <line x1="154" y1="56" x2="160" y2="56" stroke-width="1.5" />
+  </g>
+
+  <!-- Boxed Brand Name Below: [ KnotYourBag ] -->
+  <g>
+    <!-- Rectangular Box matching the paper drawing -->
+    <rect x="22" y="100" width="156" height="30" rx="3" stroke-width="2.5" fill="#FAF8F5" />
+    <!-- Text KnotYourBag in stylized lettering -->
+    <text x="100" y="121" font-family="'Playfair Display', Georgia, cursive, serif" font-size="16" font-weight="700" font-style="italic" text-anchor="middle" fill="currentColor" stroke="none" letter-spacing="0.5">KnotYourBag</text>
+  </g>
+</svg>
