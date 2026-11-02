@@ -205,27 +205,14 @@ async function loadAllData() {
 function initSupabaseClient() {
   const savedUrl = localStorage.getItem('supabase_url');
   const savedKey = localStorage.getItem('supabase_key');
-  const dot = document.getElementById('supabase-status-dot');
-  const text = document.getElementById('supabase-status-text');
 
   if (savedUrl && savedKey && window.supabase) {
     try {
       supabaseClient = window.supabase.createClient(savedUrl, savedKey);
-      if (dot) {
-        dot.classList.remove('bg-amber-400');
-        dot.classList.add('bg-emerald-500');
-      }
-      if (text) text.textContent = 'Supabase: Connected';
       subscribeToRealtime();
     } catch (e) {
       console.error('Supabase init error:', e);
     }
-  } else {
-    if (dot) {
-      dot.classList.remove('bg-emerald-500');
-      dot.classList.add('bg-amber-400');
-    }
-    if (text) text.textContent = 'Database: Connect Supabase';
   }
 }
 
