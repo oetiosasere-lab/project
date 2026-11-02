@@ -51,10 +51,10 @@
 <body class="bg-[#FAF8F5] text-neutral-900 selection:bg-neutral-900 selection:text-white antialiased">
 
   <!-- ================= TOP ANNOUNCEMENT BAR ================= -->
-  <div class="bg-neutral-950 text-[#FAF8F5] text-xs font-medium py-2.5 px-4 tracking-wide text-center flex items-center justify-center gap-3 relative z-50">
+  <div id="site-announcement-bar" class="bg-neutral-950 text-[#FAF8F5] text-xs font-medium py-2.5 px-4 tracking-wide text-center flex items-center justify-center gap-3 relative z-50">
     <span class="inline-flex items-center gap-1.5">
       <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-indicator"></span>
-      <span>Handcrafted with Love</span>
+      <span id="site-announcement-text">✨ Discounts available sometimes for newsletter subscribers!</span>
     </span>
     <span class="hidden md:inline text-neutral-500">•</span>
     <span class="hidden md:inline">Custom Color & Monogram Requests Welcome</span>
@@ -168,7 +168,7 @@
 
           <!-- Main Heading -->
           <div class="space-y-4">
-            <h1 class="font-editorial text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-neutral-950 leading-[1.08]">
+            <h1 id="site-hero-headline" class="font-editorial text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-neutral-950 leading-[1.08]">
               Handmade Knot with Love
             </h1>
           </div>
@@ -331,11 +331,11 @@
 
             <!-- Main Handwritten Italian Quote -->
             <blockquote class="space-y-4">
-              <p class="font-editorial text-lg sm:text-xl md:text-2xl text-neutral-950 font-semibold italic leading-relaxed">
+              <p id="site-about-quote" class="font-editorial text-lg sm:text-xl md:text-2xl text-neutral-950 font-semibold italic leading-relaxed">
                 &ldquo;È un marchio che rappresenta un negozio di borse fatte a mano all'uncinetto. L'ho scelto perché secondo me è un bel marchio che riesce a far capire cosa vende l'artigiano ovvero il gomitolo e l'uncinetto.&rdquo;
               </p>
               
-              <p class="font-editorial text-base sm:text-lg md:text-xl text-neutral-800 font-semibold italic leading-relaxed pt-1">
+              <p id="site-about-quote2" class="font-editorial text-base sm:text-lg md:text-xl text-neutral-800 font-semibold italic leading-relaxed pt-1">
                 &ldquo;Inoltre ritengo che l'artigianato sia un ottimo settore poco conosciuto su cui costruire qualcosa.&rdquo;
               </p>
             </blockquote>
@@ -649,9 +649,11 @@
           </div>
 
           <!-- CONTACT INFORMATION SECTION -->
-          <div id="contact-info-section" class="bg-neutral-950 text-[#FAF8F5] p-7 rounded-3xl shadow-xl">
-            <h3 class="font-bold text-lg text-white mb-1">Direct Contact & Support</h3>
-            <p class="text-xs text-neutral-400 mb-6">Always accessible for our cherished customers.</p>
+          <div id="contact-info-section" class="bg-neutral-950 text-[#FAF8F5] p-7 rounded-3xl shadow-xl space-y-6">
+            <div>
+              <h3 class="font-bold text-lg text-white mb-1">Direct Contact & Support</h3>
+              <p class="text-xs text-neutral-400">Always accessible for our cherished customers.</p>
+            </div>
 
             <div class="space-y-4 text-sm">
               
@@ -661,7 +663,7 @@
                   <div class="w-8 h-8 rounded-lg bg-neutral-800 text-white flex items-center justify-center text-sm">📞</div>
                   <div>
                     <div class="text-[11px] text-neutral-400 uppercase tracking-wider font-semibold">Phone Number</div>
-                    <a href="tel:3319565982" class="font-bold text-white hover:underline text-base tracking-wide">3319565982</a>
+                    <a href="tel:3319565982" id="site-display-phone" class="font-bold text-white hover:underline text-base tracking-wide">3319565982</a>
                   </div>
                 </div>
                 <a href="tel:3319565982" class="text-xs font-bold text-amber-400 hover:text-amber-300">Call Now</a>
@@ -673,7 +675,7 @@
                   <div class="w-8 h-8 rounded-lg bg-neutral-800 text-white flex items-center justify-center text-sm">✉️</div>
                   <div>
                     <div class="text-[11px] text-neutral-400 uppercase tracking-wider font-semibold">Email Address</div>
-                    <a href="mailto:fabianojessica6@gmail.com" class="font-bold text-white hover:underline text-xs break-all">fabianojessica6@gmail.com</a>
+                    <a href="mailto:fabianojessica6@gmail.com" id="site-display-email" class="font-bold text-white hover:underline text-xs break-all">fabianojessica6@gmail.com</a>
                   </div>
                 </div>
                 <a href="mailto:fabianojessica6@gmail.com" class="text-xs font-bold text-amber-400 hover:text-amber-300">Write</a>
@@ -684,7 +686,7 @@
                 <div class="w-8 h-8 rounded-lg bg-neutral-800 text-white flex items-center justify-center text-sm mt-0.5">⏰</div>
                 <div>
                   <div class="text-[11px] text-neutral-400 uppercase tracking-wider font-semibold">Service Hours</div>
-                  <div class="font-bold text-white text-xs mt-0.5">Open 24/7, 6 days a week, 365 days a year</div>
+                  <div class="font-bold text-white text-xs mt-0.5" id="site-display-hours">Open 24/7, 6 days a week, 365 days a year</div>
                   <div class="text-[10px] text-emerald-400 mt-1 flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                     <span>Currently Active & Taking Orders</span>
@@ -698,7 +700,7 @@
                   <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center text-sm">📸</div>
                   <div>
                     <div class="text-[11px] text-neutral-400 uppercase tracking-wider font-semibold">Social Links</div>
-                    <div class="font-bold text-white text-xs">Instagram: @knotyourbag</div>
+                    <div class="font-bold text-white text-xs" id="site-display-instagram">Instagram: @knotyourbag</div>
                   </div>
                 </div>
                 <a 
@@ -712,6 +714,38 @@
               </div>
 
             </div>
+
+            <!-- Customer Enquiry Accordion Form -->
+            <div class="pt-4 border-t border-neutral-800">
+              <button 
+                type="button" 
+                onclick="document.getElementById('enquiry-sub-form').classList.toggle('hidden')" 
+                class="w-full py-2.5 px-3 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-white rounded-xl text-xs font-bold flex items-center justify-between transition"
+              >
+                <span>💬 Have a question or custom inquiry?</span>
+                <span class="text-amber-400">Send Message ✉️</span>
+              </button>
+
+              <form id="enquiry-sub-form" onsubmit="submitCustomerEnquiry(event)" class="mt-3 space-y-3 hidden bg-neutral-900/90 p-4 rounded-xl border border-neutral-800 text-xs">
+                <div>
+                  <input type="text" id="enq-name" required placeholder="Your Name *" class="w-full px-3 py-2 bg-neutral-950 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 text-xs focus:outline-none focus:border-amber-400" />
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <input type="email" id="enq-email" required placeholder="Your Email *" class="w-full px-3 py-2 bg-neutral-950 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 text-xs focus:outline-none focus:border-amber-400" />
+                  <input type="tel" id="enq-phone" placeholder="Phone (optional)" class="w-full px-3 py-2 bg-neutral-950 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 text-xs focus:outline-none focus:border-amber-400" />
+                </div>
+                <div>
+                  <input type="text" id="enq-subject" placeholder="Subject (e.g. Custom size or color)" class="w-full px-3 py-2 bg-neutral-950 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 text-xs focus:outline-none focus:border-amber-400" />
+                </div>
+                <div>
+                  <textarea id="enq-message" required rows="2" placeholder="Write your question here..." class="w-full px-3 py-2 bg-neutral-950 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 text-xs focus:outline-none focus:border-amber-400"></textarea>
+                </div>
+                <button type="submit" id="enq-submit-btn" class="w-full py-2 bg-white text-neutral-950 hover:bg-neutral-200 rounded-lg font-bold text-xs transition">
+                  Send Enquiry to Artisan
+                </button>
+              </form>
+            </div>
+
           </div>
 
         </div>

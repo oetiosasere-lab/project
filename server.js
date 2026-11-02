@@ -5,200 +5,35 @@ const url = require('url');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
+const DATA_DIR = path.join(__dirname, 'data');
 const ORDERS_FILE = path.join(__dirname, 'orders.json');
+const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
+const SETTINGS_FILE = path.join(DATA_DIR, 'settings.json');
+const INQUIRIES_FILE = path.join(DATA_DIR, 'inquiries.json');
 
-// Initial Product Catalog
-const PRODUCTS = [
-  {
-    id: 'cloud-clutch',
-    name: 'The Cloud Knitted Clutch',
-    category: 'bags',
-    categoryLabel: 'Signature Knot Bags',
-    image: '/images/cloud-clutch.jpeg',
-    tag: 'Bestseller',
-    stock: 5,
-    stockStatus: 'In Stock / Available',
-    stockAlert: 'Only 5 left in this batch',
-    description: 'Slow-crafted with ultra-soft chunky cotton yarn in our signature milky white shade. Features an organic cloud silhouette with magnetic closure.',
-    colors: [
-      { name: 'Milky White', hex: '#FAF7F2', default: true },
-      { name: 'Oatmeal Beige', hex: '#D8CBBF' },
-      { name: 'Blush Rose', hex: '#E2B8AE' },
-      { name: 'Midnight Charcoal', hex: '#232323' }
-    ],
-    features: ['100% Recycled Chunky Cotton', 'Hand-stitched reinforced lining', 'Featherlight & holds daily essentials']
-  },
-  {
-    id: 'pearl-dew-barrel',
-    name: 'The Pearl Dew Barrel Bag',
-    category: 'bags',
-    categoryLabel: 'Signature Knot Bags',
-    image: '/images/pearl-dew-barrel.jpeg',
-    tag: 'Artisan Pick',
-    stock: 3,
-    stockStatus: 'In Stock / Available',
-    stockAlert: 'Low Stock — 3 left',
-    description: 'Statement barrel silhouette hand-knotted in crisp milky cotton and embellished with hand-sewn shimmering pearl beads. Modern luxury meets slow artisan craft.',
-    colors: [
-      { name: 'Pearl White', hex: '#FFFFFF', default: true },
-      { name: 'Champagne Cream', hex: '#F4ECE1' },
-      { name: 'Soft Ice Blue', hex: '#D1DEE8' }
-    ],
-    features: ['Hand-sewn iridescent pearl beads', 'Rigid barrel structure that holds shape', 'Ergonomic knit handle']
-  },
-  {
-    id: 'indigo-knot',
-    name: 'The Burano Deep Indigo Knot',
-    category: 'bags',
-    categoryLabel: 'Signature Knot Bags',
-    image: '/images/indigo-knot.jpeg',
-    tag: 'Trending',
-    stock: 6,
-    stockStatus: 'In Stock / Available',
-    stockAlert: 'In Stock & Ready to Ship',
-    description: 'Chunky deep indigo handbag adorned with a delicate golden link necklace and luminous baroque pearl pendant. An effortless day-to-night showstopper.',
-    colors: [
-      { name: 'Deep Indigo', hex: '#2A4365', default: true },
-      { name: 'Velvet Black', hex: '#181818' },
-      { name: 'Olive Green', hex: '#586A53' }
-    ],
-    features: ['Includes detachable gold-tone pearl chain', 'Thick cushion weave handle', 'Rich color-fast dyed textile']
-  },
-  {
-    id: 'capri-daisy-tote',
-    name: 'The Capri Daisy Market Tote',
-    category: 'bags',
-    categoryLabel: 'Signature Knot Bags',
-    image: '/images/capri-daisy-tote.jpeg',
-    tag: 'Community Favorite',
-    stock: 4,
-    stockStatus: 'In Stock / Available',
-    stockAlert: '4 pieces remaining',
-    description: 'High-energy electric cyan woven tote bag finished with enamel daisy floral pins and braided ergonomic carry handles. Radiates joyful Mediterranean sunshine.',
-    colors: [
-      { name: 'Capri Azure', hex: '#0EA5E9', default: true },
-      { name: 'Sunflower Yellow', hex: '#EAB308' },
-      { name: 'Coral Peach', hex: '#F97316' },
-      { name: 'Lilac Dream', hex: '#C084FC' }
-    ],
-    features: ['Includes 2 handcrafted enamel floral pins', 'Double-reinforced twist braided straps', 'Spacious interior for phone, book & keys']
-  },
-  {
-    id: 'baby-cardigan-set',
-    name: 'Heirloom Baby Cardigan & Booties',
-    category: 'clothes',
-    categoryLabel: 'Knitwear & Clothes',
-    image: '/images/baby-cardigan-set.jpeg',
-    tag: 'Heirloom Clothes',
-    stock: 7,
-    stockStatus: 'In Stock / Available',
-    stockAlert: '7 sets available / Custom sizing',
-    description: 'Tenderly hand-knitted baby blue ribbed jacket with an asymmetrical button band and natural carved wooden buttons, paired with matching cozy booties. Hypoallergenic and gentle on skin.',
-    colors: [
-      { name: 'Pastel Blue', hex: '#BFDBFE', default: true },
-      { name: 'Milky Oat', hex: '#F3EFE6' },
-      { name: 'Sage Green', hex: '#D1E0D0' },
-      { name: 'Buttercup Warmth', hex: '#FEF08A' }
-    ],
-    features: ['100% baby-safe organic combed yarn', 'Genuine carved wooden buttons', 'Includes matching hand-knit booties']
-  },
-  {
-    id: 'coastline-tote',
-    name: 'The Coastline Bicolor Tote',
-    category: 'bags',
-    categoryLabel: 'Signature Knot Bags',
-    image: '/images/coastline-tote.jpeg',
-    tag: 'New Release',
-    stock: 4,
-    stockStatus: 'In Stock / Available',
-    stockAlert: '4 available',
-    description: 'Artisanal seaside-inspired woven shoulder tote with alternating coffee brown and milky white braided ribs. Lightweight, tactile, and effortlessly chic.',
-    colors: [
-      { name: 'Espresso & Milk', hex: '#453229', default: true },
-      { name: 'Navy & White', hex: '#1E293B' },
-      { name: 'Caramel & Cream', hex: '#854D0E' }
-    ],
-    features: ['Intertwined bicolor ribbon yarn', 'Comfort shoulder drop height', 'Structured bottom flat base']
-  },
-  {
-    id: 'heartstring-basket',
-    name: 'The Heartstring Periwinkle Basket',
-    category: 'bags',
-    categoryLabel: 'Signature Knot Bags',
-    image: '/images/heartstring-basket.jpeg',
-    tag: 'Popular Gift',
-    stock: 5,
-    stockStatus: 'In Stock / Available',
-    stockAlert: '5 pieces available',
-    description: 'Tubular knit periwinkle basket bag with an arched braided handle and a charming hand-crocheted oatmeal heart keepsake charm suspended from the rim.',
-    colors: [
-      { name: 'Periwinkle Blue', hex: '#818CF8', default: true },
-      { name: 'Milky Cream', hex: '#FAF5EE' },
-      { name: 'Earthy Terracotta', hex: '#DD6B4D' },
-      { name: 'Matcha Green', hex: '#86A789' }
-    ],
-    features: ['Detachable hand-crocheted heart charm', 'Thick tubular stitch construction', 'Compact & darling everyday silhouette']
-  },
-  {
-    id: 'espresso-slouch-tote',
-    name: 'The Espresso Pearl Slouch Tote',
-    category: 'bags',
-    categoryLabel: 'Signature Knot Bags',
-    image: '/images/espresso-slouch-tote.jpeg',
-    tag: 'Editorial',
-    stock: 3,
-    stockStatus: 'In Stock / Available',
-    stockAlert: 'Low Stock — 3 left',
-    description: 'Deep espresso macramé-inspired slouch tote with layered diamond knots and twin baroque pearl beaded swags draped across the sweetheart neckline.',
-    colors: [
-      { name: 'Espresso Dark', hex: '#342621', default: true },
-      { name: 'Pitch Black', hex: '#111111' },
-      { name: 'Warm Taupe', hex: '#78685C' }
-    ],
-    features: ['Double lustrous pearl draped swags', 'Flexible slouchy silhouette with generous depth', 'Zero synthetic plastics']
-  },
-  {
-    id: 'rose-bouquet',
-    name: 'The Eternal Knotted Rose Bouquet',
-    category: 'gifts',
-    categoryLabel: 'Gift & Accessories',
-    image: '/images/rose-bouquet.jpeg',
-    tag: 'Keepsake',
-    stock: 8,
-    stockStatus: 'In Stock / Available',
-    stockAlert: '8 bouquets ready',
-    description: 'A luxurious artisanal bouquet of dozens of hand-crocheted crimson velvet roses wrapped in textured gold-trimmed paper. A forever keepsake that never withers.',
-    colors: [
-      { name: 'Velvet Crimson', hex: '#DC2626', default: true },
-      { name: 'Vintage Dusty Pink', hex: '#FB7185' },
-      { name: 'Ivory Snow', hex: '#FFFBEB' }
-    ],
-    features: ['Never wilts or fades — forever memory', 'Luxury embossed paper & gold ribbon wrapping', 'Custom gift card handwritten by our artisan']
-  }
-];
+// Ensure data folder exists
+if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
-// Helper to read saved orders
-function getOrders() {
+// Read & Write JSON Helpers
+function readJson(file, fallback = []) {
   try {
-    if (fs.existsSync(ORDERS_FILE)) {
-      const data = fs.readFileSync(ORDERS_FILE, 'utf8');
-      return JSON.parse(data);
+    if (fs.existsSync(file)) {
+      return JSON.parse(fs.readFileSync(file, 'utf8'));
     }
   } catch (err) {
-    console.error('Error reading orders:', err);
+    console.error('Error reading JSON from', file, err);
   }
-  return [];
+  return fallback;
 }
 
-// Helper to save orders
-function saveOrder(order) {
+function writeJson(file, data) {
   try {
-    const orders = getOrders();
-    orders.unshift(order);
-    fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf8');
+    const dir = path.dirname(file);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
     return true;
   } catch (err) {
-    console.error('Error saving order:', err);
+    console.error('Error writing JSON to', file, err);
     return false;
   }
 }
@@ -224,8 +59,8 @@ const server = http.createServer((req, res) => {
 
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') {
     res.writeHead(204);
@@ -233,17 +68,254 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // API: Get products
-  if (req.method === 'GET' && pathname === '/api/products') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ success: true, count: PRODUCTS.length, products: PRODUCTS }));
+  // 1. PRODUCTS API: /api/products
+  if (pathname === '/api/products') {
+    if (req.method === 'GET') {
+      const products = readJson(PRODUCTS_FILE, []);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, count: products.length, products }));
+      return;
+    }
+
+    if (req.method === 'POST') {
+      let body = '';
+      req.on('data', chunk => body += chunk.toString());
+      req.on('end', () => {
+        try {
+          const p = JSON.parse(body);
+          if (!p || !p.name) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, message: 'Product name is required' }));
+            return;
+          }
+          const products = readJson(PRODUCTS_FILE, []);
+          const id = p.id || p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+          const newProduct = {
+            id,
+            name: p.name.trim(),
+            category: p.category || 'bags',
+            categoryLabel: p.categoryLabel || (p.category === 'clothes' ? 'Knitwear & Clothes' : p.category === 'gifts' ? 'Gift & Accessories' : 'Signature Knot Bags'),
+            image: p.image || '/images/cloud-clutch.jpeg',
+            tag: p.tag || 'New Artisan Arrival',
+            stock: parseInt(p.stock, 10) || 5,
+            stockStatus: p.stockStatus || 'In Stock / Available',
+            stockAlert: p.stockAlert || 'In Stock & Ready to Ship',
+            description: p.description || '',
+            colors: Array.isArray(p.colors) && p.colors.length > 0 ? p.colors : [{ name: 'Default', hex: '#FAF7F2', default: true }],
+            features: Array.isArray(p.features) ? p.features : ['100% Hand-knitted artisan piece']
+          };
+          const existingIdx = products.findIndex(x => x.id === id);
+          if (existingIdx >= 0) products[existingIdx] = newProduct;
+          else products.unshift(newProduct);
+          writeJson(PRODUCTS_FILE, products);
+          res.writeHead(201, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, product: newProduct }));
+        } catch (err) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, message: 'Invalid payload' }));
+        }
+      });
+      return;
+    }
+
+    if (req.method === 'PUT') {
+      let body = '';
+      req.on('data', chunk => body += chunk.toString());
+      req.on('end', () => {
+        try {
+          const p = JSON.parse(body);
+          const products = readJson(PRODUCTS_FILE, []);
+          const idx = products.findIndex(x => x.id === p.id);
+          if (idx === -1) {
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, message: 'Product not found' }));
+            return;
+          }
+          products[idx] = { ...products[idx], ...p };
+          writeJson(PRODUCTS_FILE, products);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, product: products[idx] }));
+        } catch (err) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, message: 'Invalid payload' }));
+        }
+      });
+      return;
+    }
+
+    if (req.method === 'DELETE') {
+      let body = '';
+      req.on('data', chunk => body += chunk.toString());
+      req.on('end', () => {
+        try {
+          const qId = reqUrl.searchParams.get('id');
+          const payload = body ? JSON.parse(body) : {};
+          const targetId = qId || payload.id;
+          let products = readJson(PRODUCTS_FILE, []);
+          products = products.filter(x => x.id !== targetId);
+          writeJson(PRODUCTS_FILE, products);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, message: 'Product deleted' }));
+        } catch (err) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, message: 'Delete failed' }));
+        }
+      });
+      return;
+    }
+  }
+
+  // 2. ENQUIRIES API: /api/enquiries
+  if (pathname === '/api/enquiries') {
+    if (req.method === 'GET') {
+      const list = readJson(INQUIRIES_FILE, []);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, count: list.length, enquiries: list }));
+      return;
+    }
+
+    if (req.method === 'POST') {
+      let body = '';
+      req.on('data', chunk => body += chunk.toString());
+      req.on('end', () => {
+        try {
+          const { name, email, phone, subject, message } = JSON.parse(body);
+          if (!name || !email || !message) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, message: 'Name, email and message required' }));
+            return;
+          }
+          const list = readJson(INQUIRIES_FILE, []);
+          const newInq = {
+            id: `INQ-${Math.floor(100 + Math.random() * 900)}`,
+            name: name.trim(),
+            email: email.trim(),
+            phone: (phone || '').trim(),
+            subject: (subject || 'General Inquiry').trim(),
+            message: message.trim(),
+            status: 'new',
+            created_at: new Date().toISOString()
+          };
+          list.unshift(newInq);
+          writeJson(INQUIRIES_FILE, list);
+          res.writeHead(201, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, message: 'Enquiry sent!', enquiry: newInq }));
+        } catch (err) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, message: 'Invalid format' }));
+        }
+      });
+      return;
+    }
+
+    if (req.method === 'PATCH' || req.method === 'PUT') {
+      let body = '';
+      req.on('data', chunk => body += chunk.toString());
+      req.on('end', () => {
+        try {
+          const { id, status, admin_notes } = JSON.parse(body);
+          const list = readJson(INQUIRIES_FILE, []);
+          const found = list.find(x => x.id === id);
+          if (!found) {
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, message: 'Not found' }));
+            return;
+          }
+          if (status) found.status = status;
+          if (admin_notes !== undefined) found.admin_notes = admin_notes;
+          writeJson(INQUIRIES_FILE, list);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, enquiry: found }));
+        } catch (err) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, message: 'Update failed' }));
+        }
+      });
+      return;
+    }
+
+    if (req.method === 'DELETE') {
+      let body = '';
+      req.on('data', chunk => body += chunk.toString());
+      req.on('end', () => {
+        try {
+          const qId = reqUrl.searchParams.get('id');
+          const payload = body ? JSON.parse(body) : {};
+          const targetId = qId || payload.id;
+          let list = readJson(INQUIRIES_FILE, []);
+          list = list.filter(x => x.id !== targetId);
+          writeJson(INQUIRIES_FILE, list);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, message: 'Enquiry deleted' }));
+        } catch (err) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, message: 'Delete failed' }));
+        }
+      });
+      return;
+    }
+  }
+
+  // 3. SETTINGS API: /api/settings
+  if (pathname === '/api/settings') {
+    if (req.method === 'GET') {
+      const settings = readJson(SETTINGS_FILE, {});
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, settings }));
+      return;
+    }
+
+    if (req.method === 'POST' || req.method === 'PUT') {
+      let body = '';
+      req.on('data', chunk => body += chunk.toString());
+      req.on('end', () => {
+        try {
+          const updates = JSON.parse(body);
+          const current = readJson(SETTINGS_FILE, {});
+          const merged = { ...current, ...updates };
+          writeJson(SETTINGS_FILE, merged);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, settings: merged }));
+        } catch (err) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, message: 'Invalid payload' }));
+        }
+      });
+      return;
+    }
+  }
+
+  // 4. IMAGE UPLOAD API: /api/upload
+  if (pathname === '/api/upload' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk.toString());
+    req.on('end', () => {
+      try {
+        const { imageBase64, filename } = JSON.parse(body);
+        if (!imageBase64) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, message: 'No image provided' }));
+          return;
+        }
+        const safeName = (filename || `upload-${Date.now()}.jpg`).replace(/[^a-zA-Z0-9.-]/g, '_');
+        const uploadPath = path.join(PUBLIC_DIR, 'images', safeName);
+        const cleanBase64 = imageBase64.replace(/^data:image\/\w+;base64,/, '');
+        fs.writeFileSync(uploadPath, Buffer.from(cleanBase64, 'base64'));
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, url: `/images/${safeName}`, message: 'Uploaded successfully' }));
+      } catch (err) {
+        // Fallback: return as base64 string
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, url: JSON.parse(body).imageBase64, message: 'Data URL stored' }));
+      }
+    });
     return;
   }
 
-  // API: Get order by ID
+  // 5. ORDERS API: /api/orders
   if (req.method === 'GET' && pathname.startsWith('/api/orders/')) {
     const orderId = pathname.replace('/api/orders/', '');
-    const orders = getOrders();
+    const orders = readJson(ORDERS_FILE, []);
     const found = orders.find(o => o.orderId === orderId);
     if (found) {
       res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -255,15 +327,13 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // API: Get recent orders list
   if (req.method === 'GET' && pathname === '/api/orders') {
-    const orders = getOrders();
+    const orders = readJson(ORDERS_FILE, []);
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ success: true, count: orders.length, orders }));
     return;
   }
 
-  // API: Update order status
   if ((req.method === 'PATCH' || req.method === 'PUT') && pathname.startsWith('/api/orders')) {
     let body = '';
     req.on('data', chunk => body += chunk.toString());
@@ -273,12 +343,12 @@ const server = http.createServer((req, res) => {
         const { orderId, orderRef, status, isCompleted } = payload;
         const targetId = orderId || orderRef || pathname.replace('/api/orders/', '').replace('/api/orders', '');
         
-        const orders = getOrders();
+        const orders = readJson(ORDERS_FILE, []);
         const found = orders.find(o => o.orderId === targetId || o.order_reference === targetId);
         if (found) {
           found.status = status || (isCompleted ? 'Completed' : found.status);
           found.is_completed = (status === 'completed' || isCompleted === true);
-          fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf8');
+          writeJson(ORDERS_FILE, orders);
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ success: true, order: found }));
         } else {
@@ -293,18 +363,12 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // API: Create new order
   if (req.method === 'POST' && pathname === '/api/orders') {
     let body = '';
-    req.on('data', chunk => {
-      body += chunk.toString();
-    });
-
+    req.on('data', chunk => body += chunk.toString());
     req.on('end', () => {
       try {
         const payload = JSON.parse(body);
-
-        // Validation
         const { fullName, phone, email, deliveryAddress, quantity, productId, color, personalization, notes } = payload;
 
         if (!fullName || !phone || !email || !deliveryAddress) {
@@ -317,14 +381,13 @@ const server = http.createServer((req, res) => {
         }
 
         const qty = parseInt(quantity, 10) || 1;
-        const matchedProduct = PRODUCTS.find(p => p.id === productId) || PRODUCTS[0];
+        const products = readJson(PRODUCTS_FILE, []);
+        const matchedProduct = products.find(p => p.id === productId) || (products[0] || { id: 'cloud-clutch', name: 'The Cloud Knitted Clutch', image: '/images/cloud-clutch.jpeg', colors: [{ name: 'Milky White' }] });
 
-        // Generate unique order ID
         const randomNum = Math.floor(10000 + Math.random() * 90000);
         const orderId = `KYB-${randomNum}`;
         const trackingNumber = `TRACK-KNB-${Date.now().toString().slice(-6)}`;
 
-        // Calculate expected delivery date (3-5 business days)
         const orderDate = new Date();
         const deliveryDate = new Date(orderDate.getTime() + 4 * 24 * 60 * 60 * 1000);
 
@@ -339,7 +402,7 @@ const server = http.createServer((req, res) => {
             day: 'numeric'
           }),
           status: 'Confirmed & In Artisan Queue',
-          currentStep: 1, // 1: Order Placed, 2: Handcrafting, 3: Quality Check & Packing, 4: Out for Delivery
+          currentStep: 1,
           steps: [
             { step: 1, title: 'Order Received', desc: 'Order logged & placed into artisan crafting queue', completed: true, time: 'Just now' },
             { step: 2, title: 'Handcrafting with Love', desc: 'Artisan hand-knitting your yarn with custom details', completed: false, time: 'Next 24-48 hrs' },
@@ -357,7 +420,7 @@ const server = http.createServer((req, res) => {
             name: matchedProduct.name,
             image: matchedProduct.image,
             quantity: qty,
-            color: color || matchedProduct.colors[0].name,
+            color: color || (matchedProduct.colors && matchedProduct.colors[0] ? matchedProduct.colors[0].name : 'Milky White'),
             personalization: personalization ? personalization.trim() : 'Standard handcrafted edition',
             notes: notes ? notes.trim() : 'None provided'
           },
@@ -370,7 +433,9 @@ const server = http.createServer((req, res) => {
           }
         };
 
-        saveOrder(newOrder);
+        const orders = readJson(ORDERS_FILE, []);
+        orders.unshift(newOrder);
+        writeJson(ORDERS_FILE, orders);
 
         res.writeHead(201, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
@@ -387,12 +452,11 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // Static File Serving
+  // 6. STATIC FILE SERVING
   let requestedPath = pathname === '/' ? '/index.html' : pathname;
   if (requestedPath === '/admin') requestedPath = '/admin.html';
   let filePath = path.join(PUBLIC_DIR, requestedPath);
 
-  // Security check: ensure path is within PUBLIC_DIR
   if (!filePath.startsWith(PUBLIC_DIR)) {
     res.writeHead(403);
     res.end('Access Forbidden');
@@ -401,7 +465,6 @@ const server = http.createServer((req, res) => {
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      // Fallback to index.html for SPA if not an asset
       const ext = path.extname(pathname);
       if (!ext || ext === '.html') {
         fs.readFile(path.join(PUBLIC_DIR, 'index.html'), (err2, content) => {
@@ -415,7 +478,6 @@ const server = http.createServer((req, res) => {
         });
         return;
       }
-
       res.writeHead(404, { 'Content-Type': 'text/plain' });
       res.end('404 Not Found');
       return;
@@ -443,7 +505,10 @@ server.listen(PORT, () => {
   console.log(`====================================================`);
   console.log(`  knotyourbag E-Commerce Server is running locally!`);
   console.log(`  Local URL: http://localhost:${PORT}`);
+  console.log(`  Admin Dashboard: http://localhost:${PORT}/admin.html`);
   console.log(`  API Products: http://localhost:${PORT}/api/products`);
   console.log(`  API Orders: http://localhost:${PORT}/api/orders`);
+  console.log(`  API Enquiries: http://localhost:${PORT}/api/enquiries`);
+  console.log(`  API Settings: http://localhost:${PORT}/api/settings`);
   console.log(`====================================================`);
 });

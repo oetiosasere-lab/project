@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>knotyourbag — Seller Admin Dashboard</title>
+  <title>knotyourbag — Owner Admin Portal</title>
   
-  <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧶</text></svg>" />
 
   <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
@@ -36,253 +35,835 @@
 </head>
 <body class="bg-[#FAF8F5] text-neutral-900 min-h-screen flex flex-col font-sans antialiased">
 
-  <!-- ================= ADMIN HEADER ================= -->
-  <header class="glass-header sticky top-0 z-40 border-b border-neutral-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+  <!-- ================= 1. SECURE AUTHENTICATION SCREEN ================= -->
+  <div id="auth-screen" class="fixed inset-0 z-50 bg-[#FAF8F5] flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-8 sm:p-10 shadow-2xl border border-neutral-200 relative">
       
-      <!-- Brand & Admin Title -->
-      <div class="flex items-center gap-3">
-        <a href="/" class="flex items-center gap-2 group">
-          <div class="w-10 h-10 rounded-xl bg-neutral-950 text-[#FAF8F5] p-1 flex items-center justify-center shadow-sm overflow-hidden">
-            <img src="/images/brand-icon.svg" alt="logo" class="w-full h-full object-contain filter invert contrast-150" />
-          </div>
-          <div>
-            <div class="text-xl font-extrabold tracking-tight text-neutral-950">knotyourbag</div>
-            <div class="text-[10px] tracking-wider uppercase font-bold text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded inline-block">Seller Dashboard</div>
-          </div>
-        </a>
+      <!-- Brand Crest -->
+      <div class="text-center mb-8">
+        <div class="w-16 h-16 rounded-2xl bg-neutral-950 p-2 mx-auto mb-4 flex items-center justify-center shadow-md">
+          <img src="/images/brand-icon.svg" alt="knotyourbag" class="w-full h-full object-contain filter invert" />
+        </div>
+        <h2 class="font-editorial text-2xl sm:text-3xl font-bold text-neutral-950">knotyourbag</h2>
+        <div class="text-xs font-bold uppercase tracking-widest text-amber-800 bg-amber-50 px-3 py-1 rounded-full inline-block mt-2">
+          Website Owner Portal
+        </div>
       </div>
 
-      <!-- Header Status & Navigation -->
-      <div class="flex items-center gap-3">
-        
-        <!-- Supabase Connection Pill -->
+      <!-- Tab Switch: Sign In vs Create Admin -->
+      <div class="flex bg-neutral-100 p-1 rounded-xl mb-6 text-xs font-bold">
         <button 
           type="button" 
-          id="btn-supabase-config" 
-          onclick="openSupabaseModal()" 
-          class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full border border-neutral-300 bg-white hover:border-neutral-950 transition shadow-sm"
+          id="tab-btn-login" 
+          onclick="switchAuthTab('login')" 
+          class="flex-1 py-2 rounded-lg bg-white shadow-sm text-neutral-950 transition"
         >
-          <span id="supabase-status-dot" class="w-2 h-2 rounded-full bg-amber-400"></span>
-          <span id="supabase-status-text">Supabase: Demo Mode</span>
-          <span class="text-[10px] text-neutral-400">⚙️</span>
+          Sign In
         </button>
-
-        <!-- Live Refresh Button -->
         <button 
           type="button" 
-          onclick="loadOrders()" 
-          class="p-2 text-neutral-600 hover:text-neutral-950 rounded-xl hover:bg-neutral-100 transition" 
-          title="Refresh Orders"
+          id="tab-btn-register" 
+          onclick="switchAuthTab('register')" 
+          class="flex-1 py-2 rounded-lg text-neutral-500 hover:text-neutral-950 transition"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
+          Create Admin Account
         </button>
-
-        <!-- Back to Storefront Link -->
-        <a 
-          href="/" 
-          class="text-xs font-bold text-neutral-800 hover:text-neutral-950 px-4 py-2 rounded-full border border-neutral-300 hover:bg-neutral-100 transition flex items-center gap-1.5"
-        >
-          <span>Storefront</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-          </svg>
-        </a>
-
       </div>
 
-    </div>
-  </header>
+      <!-- Login Form -->
+      <form id="form-admin-login" onsubmit="handleAdminLogin(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-neutral-800 mb-1.5">Administrator Email</label>
+          <input 
+            type="email" 
+            id="login-email" 
+            required 
+            placeholder="e.g., fabianojessica6@gmail.com" 
+            class="w-full px-4 py-3 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-neutral-900 focus:outline-none focus:border-neutral-950 text-xs"
+          />
+        </div>
 
-  <!-- ================= MAIN DASHBOARD BODY ================= -->
-  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-    
-    <!-- Top Welcome Banner -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-      <div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-neutral-950">Artisan Order Management</h1>
-        <p class="text-xs sm:text-sm text-neutral-600 mt-1">
-          Review who placed orders from your landing page, track stitch progress, and mark orders as completed.
+        <div>
+          <label class="block font-bold text-neutral-800 mb-1.5">Password</label>
+          <input 
+            type="password" 
+            id="login-password" 
+            required 
+            placeholder="••••••••••••" 
+            class="w-full px-4 py-3 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-neutral-900 focus:outline-none focus:border-neutral-950 text-xs"
+          />
+        </div>
+
+        <button 
+          type="submit" 
+          id="btn-login-submit" 
+          class="w-full py-3.5 bg-neutral-950 hover:bg-neutral-800 text-white font-bold text-xs rounded-xl transition shadow-lg mt-2"
+        >
+          Enter Dashboard 🔐
+        </button>
+
+        <p class="text-[11px] text-neutral-500 text-center pt-2">
+          Default Owner Passcode: <code class="bg-neutral-100 px-1.5 py-0.5 rounded font-mono font-bold text-neutral-900">knotyourbag2026!</code>
         </p>
-      </div>
-      <div class="flex items-center gap-2">
-        <button 
-          type="button" 
-          onclick="openNewOrderModal()" 
-          class="px-4 py-2.5 bg-neutral-950 hover:bg-neutral-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm"
-        >
-          <span>+ Add Manual Order</span>
-        </button>
-      </div>
-    </div>
+      </form>
 
-    <!-- Metric Stats Cards -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-      
-      <!-- Metric 1: Total Orders -->
-      <div class="bg-white p-5 rounded-2xl border border-neutral-200/80 shadow-sm flex items-center justify-between">
+      <!-- Register / Create Admin Account Form -->
+      <form id="form-admin-register" onsubmit="handleAdminRegister(event)" class="space-y-4 text-xs hidden">
         <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-neutral-500">Total Orders</span>
-          <div class="text-2xl sm:text-3xl font-extrabold text-neutral-950 mt-1" id="stat-total-orders">0</div>
-        </div>
-        <div class="w-10 h-10 rounded-xl bg-neutral-100 text-neutral-800 flex items-center justify-center font-bold text-lg">
-          📦
-        </div>
-      </div>
-
-      <!-- Metric 2: Not Completed (Active Queue) -->
-      <div class="bg-white p-5 rounded-2xl border border-amber-200 shadow-sm flex items-center justify-between">
-        <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-amber-700">Not Completed</span>
-          <div class="text-2xl sm:text-3xl font-extrabold text-amber-900 mt-1" id="stat-pending-orders">0</div>
-        </div>
-        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-800 flex items-center justify-center font-bold text-lg">
-          ⏳
-        </div>
-      </div>
-
-      <!-- Metric 3: Completed Orders -->
-      <div class="bg-white p-5 rounded-2xl border border-emerald-200 shadow-sm flex items-center justify-between">
-        <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Completed Orders</span>
-          <div class="text-2xl sm:text-3xl font-extrabold text-emerald-900 mt-1" id="stat-completed-orders">0</div>
-        </div>
-        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center font-bold text-lg">
-          ✅
-        </div>
-      </div>
-
-      <!-- Metric 4: Total Items Crafted -->
-      <div class="bg-white p-5 rounded-2xl border border-neutral-200/80 shadow-sm flex items-center justify-between">
-        <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-neutral-500">Items Requested</span>
-          <div class="text-2xl sm:text-3xl font-extrabold text-neutral-950 mt-1" id="stat-total-items">0</div>
-        </div>
-        <div class="w-10 h-10 rounded-xl bg-neutral-100 text-neutral-800 flex items-center justify-center font-bold text-lg">
-          🧶
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Search & Filter Bar -->
-    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-neutral-200/80 shadow-sm mb-6 space-y-4">
-      
-      <!-- Filter Tabs -->
-      <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-neutral-100">
-        <div class="flex flex-wrap items-center gap-2">
-          <button 
-            type="button" 
-            onclick="setTabFilter('all')" 
-            id="tab-all" 
-            class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-neutral-950 text-white transition flex items-center gap-1.5"
-          >
-            <span>All Orders</span>
-            <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-white/20" id="badge-count-all">0</span>
-          </button>
-          
-          <button 
-            type="button" 
-            onclick="setTabFilter('not_completed')" 
-            id="tab-not_completed" 
-            class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition flex items-center gap-1.5"
-          >
-            <span>🟡 Not Completed</span>
-            <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-900 font-bold" id="badge-count-not-completed">0</span>
-          </button>
-
-          <button 
-            type="button" 
-            onclick="setTabFilter('completed')" 
-            id="tab-completed" 
-            class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition flex items-center gap-1.5"
-          >
-            <span>🟢 Completed</span>
-            <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-900 font-bold" id="badge-count-completed">0</span>
-          </button>
-        </div>
-
-        <!-- Supabase Live Sync Pill -->
-        <div class="text-[11px] text-neutral-500 font-medium flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-indicator"></span>
-          <span>Live Sync Active</span>
-        </div>
-      </div>
-
-      <!-- Search Input -->
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-        <div class="relative flex-1">
+          <label class="block font-bold text-neutral-800 mb-1.5">Owner / Administrator Name</label>
           <input 
             type="text" 
-            id="admin-search-input" 
-            oninput="handleSearch(this.value)" 
-            placeholder="Search by Customer Name, Phone, Email, Delivery Address, or Order ID..." 
-            class="w-full pl-10 pr-4 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-neutral-950 transition"
+            id="reg-name" 
+            required 
+            placeholder="e.g., Jessica Fabiano" 
+            class="w-full px-4 py-3 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-neutral-900 focus:outline-none focus:border-neutral-950 text-xs"
           />
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-neutral-400 absolute left-3.5 top-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
         </div>
 
-        <select 
-          id="admin-product-filter" 
-          onchange="handleProductFilter(this.value)" 
-          class="px-3 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-700 focus:outline-none focus:border-neutral-950 transition"
+        <div>
+          <label class="block font-bold text-neutral-800 mb-1.5">Email Address</label>
+          <input 
+            type="email" 
+            id="reg-email" 
+            required 
+            placeholder="e.g., fabianojessica6@gmail.com" 
+            class="w-full px-4 py-3 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-neutral-900 focus:outline-none focus:border-neutral-950 text-xs"
+          />
+        </div>
+
+        <div>
+          <label class="block font-bold text-neutral-800 mb-1.5">Create Secure Password</label>
+          <input 
+            type="password" 
+            id="reg-password" 
+            required 
+            minlength="6" 
+            placeholder="At least 6 characters" 
+            class="w-full px-4 py-3 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-neutral-900 focus:outline-none focus:border-neutral-950 text-xs"
+          />
+        </div>
+
+        <button 
+          type="submit" 
+          id="btn-register-submit" 
+          class="w-full py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl transition shadow-lg mt-2"
         >
-          <option value="all">All Products</option>
-          <option value="cloud-clutch">The Cloud Knitted Clutch</option>
-          <option value="pearl-dew-barrel">The Pearl Dew Barrel Bag</option>
-          <option value="indigo-knot">The Burano Deep Indigo Knot</option>
-          <option value="capri-daisy-tote">The Capri Daisy Market Tote</option>
-          <option value="baby-cardigan-set">Heirloom Baby Cardigan & Booties</option>
-          <option value="coastline-tote">The Coastline Bicolor Tote</option>
-          <option value="heartstring-basket">The Heartstring Periwinkle Basket</option>
-          <option value="espresso-slouch-tote">The Espresso Pearl Slouch Tote</option>
-          <option value="rose-bouquet">The Eternal Knotted Rose Bouquet</option>
-        </select>
-      </div>
+          Create Administrator Account ✨
+        </button>
+      </form>
 
+      <!-- Security Notice -->
+      <div class="mt-6 pt-4 border-t border-neutral-200 text-center text-[10px] text-neutral-400">
+        🔒 Protected by Supabase Auth & Session Lock. Only authorised administrators may enter.
+      </div>
     </div>
+  </div>
 
-    <!-- Orders Table Container -->
-    <div class="bg-white rounded-2xl border border-neutral-200/80 shadow-sm overflow-hidden">
-      
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs text-neutral-700">
-          <thead class="bg-[#FAF8F5] border-b border-neutral-200 text-neutral-900 font-bold uppercase tracking-wider text-[11px]">
-            <tr>
-              <th scope="col" class="py-3.5 px-4">Order ID & Date</th>
-              <th scope="col" class="py-3.5 px-4">Customer Info</th>
-              <th scope="col" class="py-3.5 px-4">Item & Customization</th>
-              <th scope="col" class="py-3.5 px-4">Delivery Address</th>
-              <th scope="col" class="py-3.5 px-4 text-center">Status</th>
-              <th scope="col" class="py-3.5 px-4 text-right">Fulfillment Actions</th>
-            </tr>
-          </thead>
-          <tbody id="orders-table-body" class="divide-y divide-neutral-200">
-            <!-- Dynamic rows rendered by admin.js -->
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Empty State -->
-      <div id="orders-empty-state" class="hidden text-center py-16 px-4">
-        <div class="w-12 h-12 bg-neutral-100 text-neutral-400 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
-          🔍
+  <!-- ================= 2. PROTECTED ADMIN PORTAL ================= -->
+  <div id="admin-app" class="hidden min-h-screen flex flex-col">
+    
+    <!-- Header -->
+    <header class="glass-header sticky top-0 z-40 border-b border-neutral-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        
+        <!-- Brand & Title -->
+        <div class="flex items-center gap-3">
+          <a href="/" target="_blank" class="flex items-center gap-2 group">
+            <div class="w-10 h-10 rounded-xl bg-neutral-950 text-[#FAF8F5] p-1 flex items-center justify-center shadow-sm">
+              <img src="/images/brand-icon.svg" alt="logo" class="w-full h-full object-contain filter invert" />
+            </div>
+            <div>
+              <div class="text-xl font-extrabold tracking-tight text-neutral-950">knotyourbag</div>
+              <div class="text-[10px] tracking-wider uppercase font-bold text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded inline-block">Website Owner Portal</div>
+            </div>
+          </a>
         </div>
-        <h4 class="font-bold text-sm text-neutral-900">No Orders Found</h4>
-        <p class="text-xs text-neutral-500 mt-1 max-w-sm mx-auto">
-          No orders match your search or filter. Once shoppers submit orders from the landing page, they will show up here immediately.
-        </p>
-      </div>
 
+        <!-- Header Actions -->
+        <div class="flex items-center gap-3">
+          
+          <!-- Supabase Connection Status Pill -->
+          <button 
+            type="button" 
+            id="btn-supabase-config" 
+            onclick="openSupabaseModal()" 
+            class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full border border-neutral-300 bg-white hover:border-neutral-950 transition shadow-sm"
+          >
+            <span id="supabase-status-dot" class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span id="supabase-status-text">Database: Connected</span>
+            <span class="text-[10px] text-neutral-400">⚙️</span>
+          </button>
+
+          <!-- Current Admin Pill & Logout -->
+          <div class="flex items-center gap-2 bg-neutral-100 pl-3 pr-1.5 py-1 rounded-full text-xs font-bold text-neutral-800">
+            <span id="admin-user-display">👤 Admin</span>
+            <button 
+              type="button" 
+              onclick="handleAdminLogout()" 
+              class="px-2.5 py-1 bg-white hover:bg-rose-50 text-neutral-600 hover:text-rose-600 rounded-full transition shadow-xs text-[11px]"
+            >
+              Log Out
+            </button>
+          </div>
+
+          <!-- Open Live Storefront -->
+          <a 
+            href="/" 
+            target="_blank" 
+            class="text-xs font-bold text-white bg-neutral-950 px-4 py-2 rounded-full hover:bg-neutral-800 transition flex items-center gap-1.5 shadow-sm"
+          >
+            <span>View Website</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Navigation Bar (Orders | Products | Enquiries | Website Content) -->
+    <div class="bg-white border-b border-neutral-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between overflow-x-auto">
+        <nav class="flex items-center gap-2 py-3">
+          <button 
+            type="button" 
+            onclick="switchMainSection('orders')" 
+            id="nav-section-orders" 
+            class="section-nav-btn px-4 py-2 rounded-xl text-xs font-bold bg-neutral-950 text-white transition flex items-center gap-2"
+          >
+            <span>📦 Customer Orders</span>
+            <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-white/20" id="badge-nav-orders">0</span>
+          </button>
+
+          <button 
+            type="button" 
+            onclick="switchMainSection('products')" 
+            id="nav-section-products" 
+            class="section-nav-btn px-4 py-2 rounded-xl text-xs font-bold text-neutral-600 hover:text-neutral-950 hover:bg-neutral-100 transition flex items-center gap-2"
+          >
+            <span>🧶 Manage Products</span>
+            <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-neutral-200" id="badge-nav-products">0</span>
+          </button>
+
+          <button 
+            type="button" 
+            onclick="switchMainSection('enquiries')" 
+            id="nav-section-enquiries" 
+            class="section-nav-btn px-4 py-2 rounded-xl text-xs font-bold text-neutral-600 hover:text-neutral-950 hover:bg-neutral-100 transition flex items-center gap-2"
+          >
+            <span>💬 Customer Enquiries</span>
+            <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-900 font-bold" id="badge-nav-enquiries">0</span>
+          </button>
+
+          <button 
+            type="button" 
+            onclick="switchMainSection('settings')" 
+            id="nav-section-settings" 
+            class="section-nav-btn px-4 py-2 rounded-xl text-xs font-bold text-neutral-600 hover:text-neutral-950 hover:bg-neutral-100 transition flex items-center gap-2"
+          >
+            <span>📝 Website Information</span>
+          </button>
+        </nav>
+
+        <div class="text-[11px] text-neutral-400 font-medium py-3 whitespace-nowrap">
+          Changes save directly to database & appear immediately on website
+        </div>
+      </div>
     </div>
 
-  </main>
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
 
-  <!-- ================= SUPABASE CONFIGURATION MODAL ================= -->
+      <!-- ================= SECTION A: CUSTOMER ORDERS ================= -->
+      <section id="section-orders" class="space-y-6">
+        
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-neutral-950">Customer Orders</h1>
+            <p class="text-xs sm:text-sm text-neutral-600 mt-1">
+              Review who ordered from your landing page form, manage artisan crafting, and mark completed.
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button 
+              type="button" 
+              onclick="loadAllData()" 
+              class="px-3.5 py-2.5 bg-white border border-neutral-300 hover:border-neutral-950 text-neutral-800 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm"
+            >
+              <span>🔄 Refresh</span>
+            </button>
+            <button 
+              type="button" 
+              onclick="openNewOrderModal()" 
+              class="px-4 py-2.5 bg-neutral-950 hover:bg-neutral-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm"
+            >
+              <span>+ Add Manual Order</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric Stats Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white p-5 rounded-2xl border border-neutral-200/80 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-neutral-500">Total Orders</span>
+              <div class="text-2xl sm:text-3xl font-extrabold text-neutral-950 mt-1" id="stat-total-orders">0</div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-neutral-100 text-neutral-800 flex items-center justify-center font-bold text-lg">📦</div>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-amber-200 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-700">Not Completed</span>
+              <div class="text-2xl sm:text-3xl font-extrabold text-amber-900 mt-1" id="stat-pending-orders">0</div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-800 flex items-center justify-center font-bold text-lg">⏳</div>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-emerald-200 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Completed Orders</span>
+              <div class="text-2xl sm:text-3xl font-extrabold text-emerald-900 mt-1" id="stat-completed-orders">0</div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center font-bold text-lg">✅</div>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-neutral-200/80 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-neutral-500">Items Requested</span>
+              <div class="text-2xl sm:text-3xl font-extrabold text-neutral-950 mt-1" id="stat-total-items">0</div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-neutral-100 text-neutral-800 flex items-center justify-center font-bold text-lg">🧶</div>
+          </div>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-neutral-200/80 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-neutral-100">
+            <div class="flex flex-wrap items-center gap-2">
+              <button 
+                type="button" 
+                onclick="setTabFilter('all')" 
+                id="tab-all" 
+                class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-neutral-950 text-white transition flex items-center gap-1.5"
+              >
+                <span>All Orders</span>
+                <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-white/20" id="badge-count-all">0</span>
+              </button>
+              
+              <button 
+                type="button" 
+                onclick="setTabFilter('not_completed')" 
+                id="tab-not_completed" 
+                class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition flex items-center gap-1.5"
+              >
+                <span>🟡 Not Completed</span>
+                <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-900 font-bold" id="badge-count-not-completed">0</span>
+              </button>
+
+              <button 
+                type="button" 
+                onclick="setTabFilter('completed')" 
+                id="tab-completed" 
+                class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition flex items-center gap-1.5"
+              >
+                <span>🟢 Completed</span>
+                <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-900 font-bold" id="badge-count-completed">0</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <div class="relative flex-1">
+              <input 
+                type="text" 
+                id="admin-search-input" 
+                oninput="handleSearch(this.value)" 
+                placeholder="Search orders by customer name, phone, email, address, or order ID..." 
+                class="w-full pl-10 pr-4 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-900 focus:outline-none focus:border-neutral-950 transition"
+              />
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-neutral-400 absolute left-3.5 top-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+
+            <select 
+              id="admin-product-filter" 
+              onchange="handleProductFilter(this.value)" 
+              class="px-3 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-700 focus:outline-none focus:border-neutral-950 transition"
+            >
+              <option value="all">All Products</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Orders Table Container -->
+        <div class="bg-white rounded-2xl border border-neutral-200/80 shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-neutral-700">
+              <thead class="bg-[#FAF8F5] border-b border-neutral-200 text-neutral-900 font-bold uppercase tracking-wider text-[11px]">
+                <tr>
+                  <th scope="col" class="py-3.5 px-4">Order ID & Date</th>
+                  <th scope="col" class="py-3.5 px-4">Customer Info</th>
+                  <th scope="col" class="py-3.5 px-4">Item & Customization</th>
+                  <th scope="col" class="py-3.5 px-4">Delivery Address</th>
+                  <th scope="col" class="py-3.5 px-4 text-center">Status</th>
+                  <th scope="col" class="py-3.5 px-4 text-right">Fulfillment Actions</th>
+                </tr>
+              </thead>
+              <tbody id="orders-table-body" class="divide-y divide-neutral-200"></tbody>
+            </table>
+          </div>
+
+          <div id="orders-empty-state" class="hidden text-center py-16 px-4">
+            <div class="w-12 h-12 bg-neutral-100 text-neutral-400 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">🔍</div>
+            <h4 class="font-bold text-sm text-neutral-900">No Orders Found</h4>
+            <p class="text-xs text-neutral-500 mt-1 max-w-sm mx-auto">
+              Once shoppers submit orders from the landing page, they will show up here immediately.
+            </p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= SECTION B: PRODUCTS CATALOG ================= -->
+      <section id="section-products" class="space-y-6 hidden">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-neutral-950">Store Products</h1>
+            <p class="text-xs sm:text-sm text-neutral-600 mt-1">
+              Add new bags or knitwear, edit details, and upload pictures. Changes update the main website instantly.
+            </p>
+          </div>
+          <button 
+            type="button" 
+            onclick="openProductModal()" 
+            class="px-5 py-2.5 bg-neutral-950 hover:bg-neutral-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm"
+          >
+            <span>+ Add New Product</span>
+          </button>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="admin-products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Rendered dynamically by admin.js -->
+        </div>
+      </section>
+
+      <!-- ================= SECTION C: CUSTOMER ENQUIRIES ================= -->
+      <section id="section-enquiries" class="space-y-6 hidden">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-neutral-950">Customer Enquiries & Messages</h1>
+            <p class="text-xs sm:text-sm text-neutral-600 mt-1">
+              Read customer questions, manage custom requests, and keep track of replies.
+            </p>
+          </div>
+          <button 
+            type="button" 
+            onclick="loadAllData()" 
+            class="px-3.5 py-2 bg-white border border-neutral-300 text-neutral-800 rounded-xl text-xs font-bold"
+          >
+            Refresh Messages
+          </button>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-neutral-200/80 shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-neutral-700">
+              <thead class="bg-[#FAF8F5] border-b border-neutral-200 text-neutral-900 font-bold uppercase tracking-wider text-[11px]">
+                <tr>
+                  <th scope="col" class="py-3.5 px-4">Date & ID</th>
+                  <th scope="col" class="py-3.5 px-4">Customer Details</th>
+                  <th scope="col" class="py-3.5 px-4">Subject</th>
+                  <th scope="col" class="py-3.5 px-4">Message</th>
+                  <th scope="col" class="py-3.5 px-4 text-center">Status</th>
+                  <th scope="col" class="py-3.5 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="enquiries-table-body" class="divide-y divide-neutral-200"></tbody>
+            </table>
+          </div>
+
+          <div id="enquiries-empty-state" class="hidden text-center py-16 px-4">
+            <div class="w-12 h-12 bg-neutral-100 text-neutral-400 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">📬</div>
+            <h4 class="font-bold text-sm text-neutral-900">No Enquiries Yet</h4>
+            <p class="text-xs text-neutral-500 mt-1">Customer inquiries submitted from the website will appear here.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION D: WEBSITE INFORMATION ================= -->
+      <section id="section-settings" class="space-y-6 hidden">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-neutral-950">Website Information & Content</h1>
+          <p class="text-xs sm:text-sm text-neutral-600 mt-1">
+            Update phone numbers, contact email, opening hours, quotes, and announcement texts without touching code.
+          </p>
+        </div>
+
+        <form id="form-site-settings" onsubmit="saveSiteSettings(event)" class="bg-white p-6 sm:p-8 rounded-3xl border border-neutral-200 shadow-sm space-y-6">
+          
+          <!-- Announcement Bar -->
+          <div>
+            <h3 class="font-bold text-sm text-neutral-950 uppercase tracking-wider pb-2 border-b border-neutral-200">Top Announcement Banner</h3>
+            <div class="mt-3">
+              <label class="block text-xs font-bold text-neutral-700 mb-1">Announcement Text</label>
+              <input 
+                type="text" 
+                id="cfg-announcement" 
+                class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-900 focus:outline-none focus:border-neutral-950" 
+              />
+            </div>
+          </div>
+
+          <!-- Hero Section -->
+          <div>
+            <h3 class="font-bold text-sm text-neutral-950 uppercase tracking-wider pb-2 border-b border-neutral-200">Hero Section</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+              <div>
+                <label class="block text-xs font-bold text-neutral-700 mb-1">Main Headline</label>
+                <input 
+                  type="text" 
+                  id="cfg-heroHeadline" 
+                  class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-900 focus:outline-none focus:border-neutral-950" 
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-neutral-700 mb-1">Subheadline Description</label>
+                <input 
+                  type="text" 
+                  id="cfg-heroSubheadline" 
+                  class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-900 focus:outline-none focus:border-neutral-950" 
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Details -->
+          <div>
+            <h3 class="font-bold text-sm text-neutral-950 uppercase tracking-wider pb-2 border-b border-neutral-200">Contact & Support Details</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+              <div>
+                <label class="block text-xs font-bold text-neutral-700 mb-1">Phone Number</label>
+                <input 
+                  type="text" 
+                  id="cfg-phone" 
+                  class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-900 focus:outline-none focus:border-neutral-950" 
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-neutral-700 mb-1">Email Address</label>
+                <input 
+                  type="email" 
+                  id="cfg-email" 
+                  class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-900 focus:outline-none focus:border-neutral-950" 
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-neutral-700 mb-1">Service Hours</label>
+                <input 
+                  type="text" 
+                  id="cfg-hours" 
+                  class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-900 focus:outline-none focus:border-neutral-950" 
+                />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-neutral-700 mb-1">Instagram Handle</label>
+                <input 
+                  type="text" 
+                  id="cfg-instagram" 
+                  class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-900 focus:outline-none focus:border-neutral-950" 
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- About Us Section Quotes -->
+          <div>
+            <h3 class="font-bold text-sm text-neutral-950 uppercase tracking-wider pb-2 border-b border-neutral-200">About Us — Founder's Note</h3>
+            <div class="space-y-3 mt-3">
+              <div>
+                <label class="block text-xs font-bold text-neutral-700 mb-1">Italian Quote Paragraph 1</label>
+                <textarea 
+                  id="cfg-aboutQuote" 
+                  rows="2" 
+                  class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-900 focus:outline-none focus:border-neutral-950"
+                ></textarea>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-neutral-700 mb-1">Italian Quote Paragraph 2</label>
+                <textarea 
+                  id="cfg-aboutQuote2" 
+                  rows="2" 
+                  class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-900 focus:outline-none focus:border-neutral-950"
+                ></textarea>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-neutral-700 mb-1">Founder / Author Name</label>
+                <input 
+                  type="text" 
+                  id="cfg-aboutAuthor" 
+                  class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs text-neutral-900 focus:outline-none focus:border-neutral-950" 
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 flex items-center justify-between border-t border-neutral-200">
+            <span class="text-xs text-neutral-500">Updates will be saved to your database and loaded on the storefront.</span>
+            <button 
+              type="submit" 
+              class="px-6 py-3 bg-neutral-950 hover:bg-neutral-800 text-white rounded-xl font-bold text-xs shadow-md transition"
+            >
+              Save Website Information ✨
+            </button>
+          </div>
+
+        </form>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ================= MODAL: ADD / EDIT PRODUCT & PICTURE UPLOAD ================= -->
+  <div id="product-modal" class="fixed inset-0 z-50 modal-backdrop hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative border border-neutral-200 max-h-[90vh] overflow-y-auto">
+      <button 
+        type="button" 
+        onclick="closeProductModal()" 
+        class="absolute top-5 right-5 p-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition"
+      >
+        ✕
+      </button>
+
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center font-bold text-lg">🧶</div>
+        <div>
+          <h3 class="font-bold text-lg text-neutral-950" id="product-modal-title">Add New Product</h3>
+          <p class="text-xs text-neutral-500">Configure product picture, title, stock, and descriptions.</p>
+        </div>
+      </div>
+
+      <form id="form-product" onsubmit="saveProduct(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="prod-id" />
+
+        <!-- Picture Upload & Preview -->
+        <div class="p-4 bg-[#FAF8F5] rounded-2xl border border-neutral-200 space-y-3">
+          <label class="block font-bold text-neutral-800">Product Picture (Upload File or Image URL)</label>
+          <div class="flex flex-col sm:flex-row items-center gap-4">
+            <div class="w-24 h-24 rounded-xl bg-white border border-neutral-300 overflow-hidden flex items-center justify-center shadow-inner relative flex-shrink-0">
+              <img id="prod-image-preview" src="/images/cloud-clutch.jpeg" alt="preview" class="w-full h-full object-cover" />
+            </div>
+            <div class="flex-1 w-full space-y-2">
+              <input 
+                type="file" 
+                id="prod-image-file" 
+                accept="image/*" 
+                onchange="handleImageFileSelect(this)" 
+                class="block w-full text-xs text-neutral-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-neutral-900 file:text-white hover:file:bg-neutral-700 cursor-pointer"
+              />
+              <input 
+                type="text" 
+                id="prod-image-url" 
+                placeholder="Or paste image URL (e.g. /images/cloud-clutch.jpeg)" 
+                oninput="document.getElementById('prod-image-preview').src = this.value" 
+                class="w-full px-3 py-2 bg-white border border-neutral-300 rounded-lg text-xs"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-neutral-800 mb-1">Product Name *</label>
+            <input 
+              type="text" 
+              id="prod-name" 
+              required 
+              placeholder="e.g., The Olive Chunky Tote" 
+              class="w-full px-3 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl focus:outline-none focus:border-neutral-950" 
+            />
+          </div>
+
+          <div>
+            <label class="block font-bold text-neutral-800 mb-1">Category *</label>
+            <select 
+              id="prod-category" 
+              class="w-full px-3 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl focus:outline-none focus:border-neutral-950"
+            >
+              <option value="bags">Signature Knot Bags</option>
+              <option value="clothes">Knitwear & Clothes</option>
+              <option value="gifts">Gift & Accessories</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block font-bold text-neutral-800 mb-1">Badge Tag</label>
+            <input 
+              type="text" 
+              id="prod-tag" 
+              placeholder="e.g., Bestseller, Trending" 
+              class="w-full px-3 py-2 bg-[#FAF8F5] border border-neutral-300 rounded-xl" 
+            />
+          </div>
+
+          <div>
+            <label class="block font-bold text-neutral-800 mb-1">Stock Quantity</label>
+            <input 
+              type="number" 
+              id="prod-stock" 
+              min="0" 
+              value="5" 
+              class="w-full px-3 py-2 bg-[#FAF8F5] border border-neutral-300 rounded-xl" 
+            />
+          </div>
+
+          <div>
+            <label class="block font-bold text-neutral-800 mb-1">Stock Status</label>
+            <input 
+              type="text" 
+              id="prod-stockStatus" 
+              value="In Stock / Available" 
+              class="w-full px-3 py-2 bg-[#FAF8F5] border border-neutral-300 rounded-xl" 
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-neutral-800 mb-1">Description *</label>
+          <textarea 
+            id="prod-description" 
+            rows="3" 
+            required 
+            placeholder="Artisan description of the materials, weave structure, and silhouette..." 
+            class="w-full px-3 py-2 bg-[#FAF8F5] border border-neutral-300 rounded-xl focus:outline-none focus:border-neutral-950"
+          ></textarea>
+        </div>
+
+        <div>
+          <label class="block font-bold text-neutral-800 mb-1">Available Colors (Comma separated name:hex)</label>
+          <input 
+            type="text" 
+            id="prod-colors" 
+            placeholder="Milky White:#FAF7F2, Oatmeal Beige:#D8CBBF, Midnight:#232323" 
+            class="w-full px-3 py-2 bg-[#FAF8F5] border border-neutral-300 rounded-xl font-mono text-xs" 
+          />
+        </div>
+
+        <div>
+          <label class="block font-bold text-neutral-800 mb-1">Craft Features (One per line)</label>
+          <textarea 
+            id="prod-features" 
+            rows="3" 
+            placeholder="100% Recycled Chunky Cotton&#10;Hand-stitched reinforced lining&#10;Holds daily phone, keys & cards" 
+            class="w-full px-3 py-2 bg-[#FAF8F5] border border-neutral-300 rounded-xl text-xs"
+          ></textarea>
+        </div>
+
+        <div class="pt-4 flex items-center justify-between border-t border-neutral-200">
+          <button 
+            type="button" 
+            id="btn-delete-product" 
+            onclick="deleteCurrentProduct()" 
+            class="text-rose-600 hover:text-rose-700 font-bold hidden"
+          >
+            🗑️ Delete Product
+          </button>
+          <div class="flex items-center gap-2 ml-auto">
+            <button 
+              type="button" 
+              onclick="closeProductModal()" 
+              class="px-4 py-2.5 bg-neutral-100 hover:bg-neutral-200 rounded-xl font-bold"
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              class="px-6 py-2.5 bg-neutral-950 hover:bg-neutral-800 text-white rounded-xl font-bold"
+            >
+              Save Product ✨
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: ORDER DETAILS & STATUS UPDATE ================= -->
+  <div id="order-detail-modal" class="fixed inset-0 z-50 modal-backdrop hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative border border-neutral-200 max-h-[90vh] overflow-y-auto">
+      <button 
+        type="button" 
+        onclick="closeOrderDetailModal()" 
+        class="absolute top-5 right-5 p-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition"
+      >
+        ✕
+      </button>
+      <div id="order-detail-content"></div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: MANUAL NEW ORDER ================= -->
+  <div id="new-order-modal" class="fixed inset-0 z-50 modal-backdrop hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border border-neutral-200 max-h-[90vh] overflow-y-auto">
+      <button 
+        type="button" 
+        onclick="closeNewOrderModal()" 
+        class="absolute top-5 right-5 p-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition"
+      >
+        ✕
+      </button>
+
+      <h3 class="font-bold text-lg text-neutral-950 mb-1">Add Manual Customer Order</h3>
+      <p class="text-xs text-neutral-500 mb-4">Log orders received via WhatsApp, phone call, or artisan market.</p>
+
+      <form id="form-new-order" onsubmit="saveNewManualOrder(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold mb-1">Customer Full Name *</label>
+          <input type="text" id="manual-name" required class="w-full px-3 py-2 bg-[#FAF8F5] border border-neutral-300 rounded-xl" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold mb-1">Phone Number *</label>
+            <input type="tel" id="manual-phone" required class="w-full px-3 py-2 bg-[#FAF8F5] border border-neutral-300 rounded-xl" />
+          </div>
+          <div>
+            <label class="block font-bold mb-1">Email Address *</label>
+            <input type="email" id="manual-email" required class="w-full px-3 py-2 bg-[#FAF8F5] border border-neutral-300 rounded-xl" />
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold mb-1">Delivery Address *</label>
+          <textarea id="manual-address" required rows="2" class="w-full px-3 py-2 bg-[#FAF8F5] border border-neutral-300 rounded-xl"></textarea>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold mb-1">Product</label>
+            <select id="manual-product-select" class="w-full px-3 py-2 bg-[#FAF8F5] border border-neutral-300 rounded-xl"></select>
+          </div>
+          <div>
+            <label class="block font-bold mb-1">Quantity</label>
+            <input type="number" id="manual-quantity" min="1" value="1" class="w-full px-3 py-2 bg-[#FAF8F5] border border-neutral-300 rounded-xl" />
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold mb-1">Color & Personalization Notes</label>
+          <input type="text" id="manual-color" placeholder="e.g. Milky White with long strap" class="w-full px-3 py-2 bg-[#FAF8F5] border border-neutral-300 rounded-xl" />
+        </div>
+        <div class="pt-3 flex justify-end gap-2">
+          <button type="button" onclick="closeNewOrderModal()" class="px-4 py-2 bg-neutral-100 rounded-xl font-bold">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-neutral-950 text-white rounded-xl font-bold">Save Order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: SUPABASE CONFIGURATION ================= -->
   <div id="supabase-modal" class="fixed inset-0 z-50 modal-backdrop hidden items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border border-neutral-200">
       <button 
@@ -294,9 +875,7 @@
       </button>
 
       <div class="flex items-center gap-3 mb-4">
-        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-lg">
-          ⚡
-        </div>
+        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-lg">⚡</div>
         <div>
           <h3 class="font-bold text-lg text-neutral-950">Supabase Connection</h3>
           <p class="text-xs text-neutral-500">Connect your Supabase database in 10 seconds.</p>
@@ -310,7 +889,7 @@
             type="text" 
             id="cfg-supabase-url" 
             placeholder="https://xyzcompany.supabase.co" 
-            class="w-full px-3 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl font-mono focus:outline-none focus:border-neutral-950"
+            class="w-full px-3 py-2.5 bg-[#FAF8F5] border border-neutral-300 rounded-xl font-mono focus:outline-none focus:border-neutral-950" 
           />
         </div>
 
@@ -325,7 +904,7 @@
         </div>
 
         <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-[11px] text-amber-900 leading-relaxed">
-          💡 <strong>Need the SQL schema?</strong> Your project contains <code class="bg-amber-100 px-1 py-0.5 rounded font-mono font-bold">supabase_schema.sql</code>. Copy & paste it into your Supabase SQL Editor to create the <code class="bg-amber-100 px-1 py-0.5 rounded font-mono font-bold">orders</code> table and Row-Level Security rules.
+          💡 <strong>Need the SQL schema?</strong> Copy and run <code class="bg-amber-100 px-1 py-0.5 rounded font-mono font-bold">supabase_schema.sql</code> into your Supabase SQL Editor.
         </div>
 
         <div class="flex items-center justify-between pt-2">
@@ -334,40 +913,26 @@
             onclick="clearSupabaseConfig()" 
             class="text-neutral-500 hover:text-neutral-900 text-xs font-semibold"
           >
-            Reset to Demo Mode
+            Reset
           </button>
-          
           <button 
             type="button" 
             onclick="saveSupabaseConfig()" 
             class="btn-primary px-5 py-2.5 rounded-xl font-bold text-xs"
           >
-            Save & Connect Supabase
+            Save & Connect
           </button>
         </div>
       </div>
-
     </div>
   </div>
 
-  <!-- ================= ORDER DETAILS MODAL ================= -->
-  <div id="order-detail-modal" class="fixed inset-0 z-50 modal-backdrop hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative border border-neutral-200 max-h-[90vh] overflow-y-auto">
-      <button 
-        type="button" 
-        onclick="closeOrderDetailModal()" 
-        class="absolute top-5 right-5 p-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition"
-      >
-        ✕
-      </button>
-
-      <div id="order-detail-content">
-        <!-- Rendered dynamically -->
-      </div>
-    </div>
+  <!-- Toast Alert -->
+  <div id="admin-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 bg-neutral-950 text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-neutral-800 text-xs font-semibold">
+    <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-indicator"></span>
+    <span id="admin-toast-message">Notification message</span>
   </div>
 
-  <!-- Admin Application Logic -->
   <script src="/admin.js"></script>
 </body>
 </html>

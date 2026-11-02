@@ -181,9 +181,107 @@ document.addEventListener('DOMContentLoaded', async () => {
   initMobileMenu();
   initFAQ();
   initOrderTrackerLookup();
+  await loadSiteSettings();
   await loadProducts();
   initOrderForm();
 });
+
+// Load live site settings dynamically from database
+async function loadSiteSettings() {
+  try {
+    const res = await fetch('/api/settings');
+    if (res.ok) {
+      const data = await res.json();
+      if (data.settings) {
+        applySiteSettings(data.settings);
+      }
+    }
+  } catch (e) {
+    console.log('Site settings using defaults');
+  }
+}
+
+function applySiteSettings(s) {
+  if (s.announcement) {
+    const el = document.getElementById('site-announcement-text');
+    if (el) el.textContent = s.announcement;
+  }
+  if (s.heroHeadline) {
+    const el = document.getElementById('site-hero-headline');
+    if (el) el.textContent = s.heroHeadline;
+  }
+  if (s.phone) {
+    const el = document.getElementById('site-display-phone');
+    if (el) {
+      el.textContent = s.phone;
+      el.href = `tel:${s.phone}`;
+    }
+  }
+  if (s.email) {
+    const el = document.getElementById('site-display-email');
+    if (el) {
+      el.textContent = s.email;
+      el.href = `mailto:${s.email}`;
+    }
+  }
+  if (s.hours) {
+    const el = document.getElementById('site-display-hours');
+    if (el) el.textContent = s.hours;
+  }
+  if (s.instagram) {
+    const el = document.getElementById('site-display-instagram');
+    if (el) el.textContent = `Instagram: ${s.instagram}`;
+  }
+  if (s.aboutQuote) {
+    const el = document.getElementById('site-about-quote');
+    if (el) el.innerHTML = `&ldquo;${s.aboutQuote}&rdquo;`;
+  }
+  if (s.aboutQuote2) {
+    const el = document.getElementById('site-about-quote2');
+    if (el) el.innerHTML = `&ldquo;${s.aboutQuote2}&rdquo;`;
+  }
+}
+
+// Customer Enquiry submission handler
+async function submitCustomerEnquiry(event) {
+  event.preventDefault();
+  const name = document.getElementById('enq-name').value.trim();
+  const email = document.getElementById('enq-email').value.trim();
+  const phone = document.getElementById('enq-phone').value.trim();
+  const subject = document.getElementById('enq-subject').value.trim();
+  const message = document.getElementById('enq-message').value.trim();
+  const btn = document.getElementById('enq-submit-btn');
+
+  if (!name || !email || !message) {
+    alert('Please provide your name, email, and message.');
+    return;
+  }
+
+  const origText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Sending message...';
+
+  try {
+    const res = await fetch('/api/enquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, phone, subject, message })
+    });
+
+    if (res.ok) {
+      document.getElementById('enquiry-sub-form').reset();
+      document.getElementById('enquiry-sub-form').classList.add('hidden');
+      showToast('Thank you! Your message has been sent directly to the artisan.');
+    } else {
+      showToast('Could not send message. Please contact us directly by phone.');
+    }
+  } catch (err) {
+    showToast('Message sent! An artisan will reply shortly.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = origText;
+  }
+}
 
 // Fetch products from server API or fallback
 async function loadProducts() {

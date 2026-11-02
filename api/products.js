@@ -1,5 +1,11 @@
-// Vercel Serverless Function: GET /api/products
-const PRODUCTS = [
+// Vercel Serverless Function: /api/products
+// Supports GET (fetch all active products) and POST/PUT/DELETE (admin management)
+const fs = require('fs');
+const path = require('path');
+
+const PRODUCTS_FILE = path.join(process.cwd(), 'data', 'products.json');
+
+const DEFAULT_PRODUCTS = [
   {
     id: 'cloud-clutch',
     name: 'The Cloud Knitted Clutch',
@@ -99,17 +105,17 @@ const PRODUCTS = [
     category: 'bags',
     categoryLabel: 'Signature Knot Bags',
     image: '/images/coastline-tote.jpeg',
-    tag: 'New Release',
-    stock: 4,
+    tag: 'Classic Knit',
+    stock: 5,
     stockStatus: 'In Stock / Available',
-    stockAlert: '4 available',
-    description: 'Artisanal seaside-inspired woven shoulder tote with alternating coffee brown and milky white braided ribs. Lightweight, tactile, and effortlessly chic.',
+    stockAlert: '5 pieces ready to dispatch',
+    description: 'Dual-tone architectural tote pairing deep espresso tones with warm ivory cotton cord. Spacious interior easily carries your 13-inch laptop, water bottle, and essentials.',
     colors: [
-      { name: 'Espresso & Milk', hex: '#453229', default: true },
-      { name: 'Navy & White', hex: '#1E293B' },
-      { name: 'Caramel & Cream', hex: '#854D0E' }
+      { name: 'Espresso & Milk', hex: '#3A2E2B', default: true },
+      { name: 'Terracotta & Oat', hex: '#9C5141' },
+      { name: 'Sage & Cream', hex: '#728C69' }
     ],
-    features: ['Intertwined bicolor ribbon yarn', 'Comfort shoulder drop height', 'Structured bottom flat base']
+    features: ['Fits 13-inch laptop & daily planner', 'Reinforced double-knit base for anti-sag', 'Hand-twisted chunky rope straps']
   },
   {
     id: 'heartstring-basket',
@@ -117,18 +123,17 @@ const PRODUCTS = [
     category: 'bags',
     categoryLabel: 'Signature Knot Bags',
     image: '/images/heartstring-basket.jpeg',
-    tag: 'Popular Gift',
-    stock: 5,
+    tag: 'Handmade Charm',
+    stock: 4,
     stockStatus: 'In Stock / Available',
-    stockAlert: '5 pieces available',
-    description: 'Tubular knit periwinkle basket bag with an arched braided handle and a charming hand-crocheted oatmeal heart keepsake charm suspended from the rim.',
+    stockAlert: '4 bags crafted',
+    description: 'Whimsical rounded bucket tote in pastel periwinkle blue, embellished with sweet hand-crocheted cherry charms hanging along the rim. Brings joyful artisanal charm to any stroll.',
     colors: [
-      { name: 'Periwinkle Blue', hex: '#818CF8', default: true },
-      { name: 'Milky Cream', hex: '#FAF5EE' },
-      { name: 'Earthy Terracotta', hex: '#DD6B4D' },
-      { name: 'Matcha Green', hex: '#86A789' }
+      { name: 'Pastel Periwinkle', hex: '#A5B4FC', default: true },
+      { name: 'Butter Cream', hex: '#FEF9C3' },
+      { name: 'Dusty Mauve', hex: '#D8B4E2' }
     ],
-    features: ['Detachable hand-crocheted heart charm', 'Thick tubular stitch construction', 'Compact & darling everyday silhouette']
+    features: ['Includes 2 hand-crocheted cherry charms', 'Sturdy basket weave holds round shape', 'Lightweight summer companion']
   },
   {
     id: 'espresso-slouch-tote',
@@ -136,7 +141,7 @@ const PRODUCTS = [
     category: 'bags',
     categoryLabel: 'Signature Knot Bags',
     image: '/images/espresso-slouch-tote.jpeg',
-    tag: 'Editorial',
+    tag: 'Artisan Pick',
     stock: 3,
     stockStatus: 'In Stock / Available',
     stockAlert: 'Low Stock — 3 left',
@@ -168,19 +173,128 @@ const PRODUCTS = [
   }
 ];
 
+function readProducts() {
+  try {
+    if (fs.existsSync(PRODUCTS_FILE)) {
+      const data = fs.readFileSync(PRODUCTS_FILE, 'utf8');
+      return JSON.parse(data);
+    }
+  } catch (e) {
+    console.error('Error reading products file:', e);
+  }
+  return DEFAULT_PRODUCTS;
+}
+
+function writeProducts(products) {
+  try {
+    const dir = path.dirname(PRODUCTS_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(products, null, 2), 'utf8');
+    return true;
+  } catch (e) {
+    console.error('Error writing products file:', e);
+    return false;
+  }
+}
+
 module.exports = (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') {
     res.status(204).end();
     return;
   }
 
-  res.status(200).json({
-    success: true,
-    count: PRODUCTS.length,
-    products: PRODUCTS
-  });
+  // GET: List all products
+  if (req.method === 'GET') {
+    const products = readProducts();
+    res.status(200).json({ success: true, count: products.length, products });
+    return;
+  }
+
+  // POST: Add new product
+  if (req.method === 'POST') {
+    try {
+      const p = req.body;
+      if (!p || !p.name) {
+        res.status(400).json({ success: false, message: 'Product name is required' });
+        return;
+      }
+      const products = readProducts();
+      const id = p.id || p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      const newProduct = {
+        id,
+        name: p.name.trim(),
+        category: p.category || 'bags',
+        categoryLabel: p.categoryLabel || (p.category === 'clothes' ? 'Knitwear & Clothes' : p.category === 'gifts' ? 'Gift & Accessories' : 'Signature Knot Bags'),
+        image: p.image || '/images/cloud-clutch.jpeg',
+        tag: p.tag || 'New Artisan Arrival',
+        stock: parseInt(p.stock, 10) || 5,
+        stockStatus: p.stockStatus || 'In Stock / Available',
+        stockAlert: p.stockAlert || 'In Stock & Ready to Ship',
+        description: p.description || '',
+        colors: Array.isArray(p.colors) && p.colors.length > 0 ? p.colors : [{ name: 'Default', hex: '#FAF7F2', default: true }],
+        features: Array.isArray(p.features) ? p.features : ['100% Hand-knitted artisan piece']
+      };
+
+      // Check if product exists
+      const existingIdx = products.findIndex(x => x.id === id);
+      if (existingIdx >= 0) {
+        products[existingIdx] = newProduct;
+      } else {
+        products.unshift(newProduct);
+      }
+      writeProducts(products);
+      res.status(201).json({ success: true, product: newProduct });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
+    }
+    return;
+  }
+
+  // PUT: Update existing product
+  if (req.method === 'PUT') {
+    try {
+      const p = req.body;
+      if (!p || !p.id) {
+        res.status(400).json({ success: false, message: 'Product id is required for update' });
+        return;
+      }
+      const products = readProducts();
+      const idx = products.findIndex(x => x.id === p.id);
+      if (idx === -1) {
+        res.status(404).json({ success: false, message: 'Product not found' });
+        return;
+      }
+      products[idx] = { ...products[idx], ...p };
+      writeProducts(products);
+      res.status(200).json({ success: true, product: products[idx] });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
+    }
+    return;
+  }
+
+  // DELETE: Remove product
+  if (req.method === 'DELETE') {
+    try {
+      const { id } = req.query || {};
+      const targetId = id || (req.body && req.body.id);
+      if (!targetId) {
+        res.status(400).json({ success: false, message: 'Product ID required' });
+        return;
+      }
+      let products = readProducts();
+      products = products.filter(x => x.id !== targetId);
+      writeProducts(products);
+      res.status(200).json({ success: true, message: 'Product deleted' });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
+    }
+    return;
+  }
+
+  res.status(405).json({ success: false, message: 'Method not allowed' });
 };
