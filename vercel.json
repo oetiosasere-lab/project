@@ -1,19 +1,58 @@
 {
   "version": 2,
   "cleanUrls": true,
-  "rewrites": [
-    { "source": "/api/products", "destination": "/api/products" },
-    { "source": "/api/orders/:id", "destination": "/api/orders?id=:id" },
-    { "source": "/api/orders", "destination": "/api/orders" },
-    { "source": "/api/enquiries", "destination": "/api/enquiries" },
-    { "source": "/api/settings", "destination": "/api/settings" },
-    { "source": "/api/upload", "destination": "/api/upload" },
-    { "source": "/admin", "destination": "/public/admin.html" },
-    { "source": "/styles.css", "destination": "/public/styles.css" },
-    { "source": "/app.js", "destination": "/public/app.js" },
-    { "source": "/admin.js", "destination": "/public/admin.js" },
-    { "source": "/images/(.*)", "destination": "/public/images/$1" },
-    { "source": "/", "destination": "/public/index.html" },
-    { "source": "/(.*)", "destination": "/public/$1" }
+  "routes": [
+    {
+      "src": "^/api/products$",
+      "dest": "/api/products.js"
+    },
+    {
+      "src": "^/api/orders/(?<id>[^/]+)$",
+      "dest": "/api/orders.js?id=$id"
+    },
+    {
+      "src": "^/api/orders$",
+      "dest": "/api/orders.js"
+    },
+    {
+      "src": "^/api/enquiries$",
+      "dest": "/api/enquiries.js"
+    },
+    {
+      "src": "^/api/settings$",
+      "dest": "/api/settings.js"
+    },
+    {
+      "src": "^/api/upload$",
+      "dest": "/api/upload.js"
+    },
+    {
+      "src": "^/admin$",
+      "dest": "/public/admin.html"
+    },
+    {
+      "src": "^/styles\\.css$",
+      "dest": "/public/styles.css"
+    },
+    {
+      "src": "^/app\\.js$",
+      "dest": "/public/app.js"
+    },
+    {
+      "src": "^/admin\\.js$",
+      "dest": "/public/admin.js"
+    },
+    {
+      "src": "^/images/(.*)$",
+      "dest": "/public/images/$1"
+    },
+    {
+      "src": "^/$",
+      "dest": "/public/index.html"
+    },
+    {
+      "src": "^/(.*)$",
+      "dest": "/public/$1"
+    }
   ]
 }
