@@ -225,7 +225,7 @@ function initSupabaseClient() {
       dot.classList.remove('bg-emerald-500');
       dot.classList.add('bg-amber-400');
     }
-    if (text) text.textContent = 'Local Database';
+    if (text) text.textContent = 'Database: Connect Supabase';
   }
 }
 

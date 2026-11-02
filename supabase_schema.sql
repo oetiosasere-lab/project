@@ -319,13 +319,7 @@ INSERT INTO public.site_settings (key, value, description) VALUES
 ('founder_author', 'Jessica Fabiano', 'Founder name')
 ON CONFLICT (key) DO NOTHING;
 
--- 10. SEED INITIAL ENQUIRIES
-INSERT INTO public.enquiries (id, customer_name, customer_email, customer_phone, subject, message, status) VALUES
-('INQ-101', 'Chiara Rossi', 'chiara.rossi@example.com', '3481234567', 'Custom Colorway Question', 'Hello Jessica, can I request the Cloud Knitted Clutch in a Sage Green hue with longer straps?', 'new'),
-('INQ-102', 'Alessandra Ferrari', 'alessandra.f@example.com', '3398765432', 'Bulk Gift Order', 'Hi, would it be possible to order 5 Eternal Knotted Rose Bouquets for a bridesmaids gift next month?', 'replied')
-ON CONFLICT (id) DO NOTHING;
-
--- 11. ENABLE REALTIME
+-- 10. REALTIME NOTIFICATIONS (Realtime synchronization)
 BEGIN;
   DROP PUBLICATION IF EXISTS supabase_realtime;
   CREATE PUBLICATION supabase_realtime FOR TABLE public.orders, public.products, public.enquiries, public.site_settings;

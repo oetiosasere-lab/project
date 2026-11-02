@@ -5,28 +5,7 @@ const path = require('path');
 
 const INQUIRIES_FILE = path.join(process.cwd(), 'data', 'inquiries.json');
 
-const DEFAULT_INQUIRIES = [
-  {
-    id: 'INQ-101',
-    name: 'Chiara Rossi',
-    email: 'chiara.rossi@example.com',
-    phone: '3481234567',
-    subject: 'Custom Colorway Question',
-    message: 'Hello Jessica, can I request the Cloud Knitted Clutch in a Sage Green hue with longer straps?',
-    status: 'new',
-    created_at: new Date(Date.now() - 3600000 * 5).toISOString()
-  },
-  {
-    id: 'INQ-102',
-    name: 'Alessandra Ferrari',
-    email: 'alessandra.f@example.com',
-    phone: '3398765432',
-    subject: 'Bulk Gift Order',
-    message: 'Hi, would it be possible to order 5 Eternal Knotted Rose Bouquets for a bridesmaids gift next month?',
-    status: 'replied',
-    created_at: new Date(Date.now() - 3600000 * 28).toISOString()
-  }
-];
+const DEFAULT_INQUIRIES = [];
 
 function readInquiries() {
   try {
@@ -37,7 +16,7 @@ function readInquiries() {
   } catch (e) {
     console.error('Error reading inquiries:', e);
   }
-  return DEFAULT_INQUIRIES;
+  return [];
 }
 
 function writeInquiries(list) {
