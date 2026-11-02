@@ -2,57 +2,18 @@
   "version": 2,
   "cleanUrls": true,
   "rewrites": [
-    {
-      "source": "/api/products",
-      "destination": "/api/products.js"
-    },
-    {
-      "source": "/api/orders/:id",
-      "destination": "/api/orders.js?id=:id"
-    },
-    {
-      "source": "/api/orders",
-      "destination": "/api/orders.js"
-    },
-    {
-      "source": "/api/enquiries",
-      "destination": "/api/enquiries.js"
-    },
-    {
-      "source": "/api/settings",
-      "destination": "/api/settings.js"
-    },
-    {
-      "source": "/api/upload",
-      "destination": "/api/upload.js"
-    },
-    {
-      "source": "/admin",
-      "destination": "/public/admin.html"
-    },
-    {
-      "source": "/styles.css",
-      "destination": "/public/styles.css"
-    },
-    {
-      "source": "/app.js",
-      "destination": "/public/app.js"
-    },
-    {
-      "source": "/admin.js",
-      "destination": "/public/admin.js"
-    },
-    {
-      "source": "/images/(.*)",
-      "destination": "/public/images/$1"
-    },
-    {
-      "source": "/",
-      "destination": "/public/index.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/public/$1"
-    }
+    { "source": "/api/products", "destination": "/api/products" },
+    { "source": "/api/orders/:id", "destination": "/api/orders?id=:id" },
+    { "source": "/api/orders", "destination": "/api/orders" },
+    { "source": "/api/enquiries", "destination": "/api/enquiries" },
+    { "source": "/api/settings", "destination": "/api/settings" },
+    { "source": "/api/upload", "destination": "/api/upload" },
+    { "source": "/admin", "destination": "/public/admin.html" },
+    { "source": "/styles.css", "destination": "/public/styles.css" },
+    { "source": "/app.js", "destination": "/public/app.js" },
+    { "source": "/admin.js", "destination": "/public/admin.js" },
+    { "source": "/images/(.*)", "destination": "/public/images/$1" },
+    { "source": "/", "destination": "/public/index.html" },
+    { "source": "/(.*)", "destination": "/public/$1" }
   ]
 }
